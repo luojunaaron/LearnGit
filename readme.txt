@@ -1,4 +1,2 @@
 Git is good.
-asdf
-asdf
-aa
+Git is ok.
