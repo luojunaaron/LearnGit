@@ -89,36 +89,6 @@ procedure getRequestBuffer:
    end.   
 end procedure.
 
-procedure getDataset:
-/*-------------------------------------------------------------------------
-   Purpose      : Returns an instance of the common API dataset
-                        
-   Parameters   : [input]
-                   pcDatasetName - Name of the common data dataset
-                  [output]
-                   phDataset     - The handle to the dataset
-      
-   Notes        : This method is used by the MFG/PRO UI program to get the
-                  instance of a common dataset. The UI program will have a 
-                  static definition of the dataset defined as 
-                  reference-only, and must call this method with the BIND
-                  option. Examples of common data are transaction comments,
-                  where the MFG/PRO program is shared by many APIs, so 
-                  referencing specific API datasets is impossible. The API
-                  Controller will copy the record in the request dataset
-                  to this common dataset.
- ------------------------------------------------------------------------*/ 
-
-   define input  parameter pcDatasetName as character.
-   define output parameter dataset-handle phDataset bind.
-   
-   do on error undo, return error:
-      hController:getDataset(input pcDatasetName,
-                             output dataset-handle phDataset bind).
-   end.
-   
-end procedure.
-
 procedure closeQuery:
 /*-------------------------------------------------------------------------
    Purpose      : Closes the query on the buffer provided so no more records
