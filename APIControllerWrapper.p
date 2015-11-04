@@ -127,6 +127,9 @@ procedure getNextRecord:
    define input parameter pcBufferName as character.
    
    do on error undo, return error:
+      /*
+      Bug fixing section
+      */
       return hController:getNextRecord(input pcBufferName).
    end.
    
