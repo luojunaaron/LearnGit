@@ -104,7 +104,7 @@ procedure closeQuery:
    define input parameter pcBufferName as character.
    
    do on error undo, return error:
-      hController:closeQuery (input pcBufferName).
+   
    end.
 
 end procedure.
