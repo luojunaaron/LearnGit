@@ -116,8 +116,7 @@ procedure getNextRecord:
    Parameters   : [input]
                    pcBufferName - The name of the buffer to get the next
                                   record for
-      
-   Returns      : codes found in pxsevcon.i
+
       
    Notes        : Uses the query on the buffer to get the next record. 
                   Does not return any data because the UI program already
