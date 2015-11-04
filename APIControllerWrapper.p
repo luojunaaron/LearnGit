@@ -20,7 +20,7 @@ procedure setController:
  ------------------------------------------------------------------------*/
 
    define input parameter phController as class IAPIController no-undo.
-   
+   /*Defect fixing for SP12*/
    hController = phController.
    
 end procedure.
