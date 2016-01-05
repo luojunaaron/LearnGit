@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file contains the configuration of the business layer of the application-->
+<serverConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="serverConfiguration.xsd">
+  <ENVROOT>/qad/local/sandbox/team/fin93/build/work</ENVROOT>
+  <components>
+    <!-- The following section indicates the number of components that get cached on the appserver. Caching components improves performance, but takes more memory on the server, so a good balance should be found.-->
+    <swapLimit>20</swapLimit>
+  </components>
+  <!-- Following section is optional and can contain a number of codepages (comma-separated) that will be added to the list of possible codepages used in the Domain maintenance. -->
+  <CODEPAGES></CODEPAGES>
+  <!-- The following section is mandatory, and provides the information for the connection to the
+	     application database(s).  Multiple database connections are supported,
+	     but they should all be of the same database type (Progress, Oracle, SQL server). -->
+  <databases>
+    <!-- Example for a progress database:
+			<rdbms>progress</rdbms>
+			<database>
+				<name>physical-db-name</name>
+				<parameters>db-connection-parms</parameters>
+				<alias>alias-name</alias>
+			</database>
+		-->
+    <!-- Example for an oracle database:
+			<rdbms>oracle</rdbms>
+			<database>
+				<name>oracle-SID</name>
+				<parameters>extra-connection-parameters</parameters>
+				<userId>user-name</userId>
+				<password>user-password</password>
+			</database>
+		-->
+    <rdbms>Progress</rdbms>
+    <database>
+      <name>qaddb</name>
+      <parameters>-H coli49 -S 18251 -N TCP -ld qaddb -trig triggers</parameters>
+    </database>
+    <database>
+      <name>qadadm</name>
+      <parameters>-H coli49 -S 18257 -N TCP -ld qadadm -trig triggers</parameters>
+    </database>
+  </databases>
+  <!-- The following section is optional.  It defines a fixed mail server to be used by the
+	     mail component in the system, to send out mail messages.
+	     If this section is left out, the system will try to find a suitable mail server.
+	     Tags that can be used:
+	     <smtpServer>MailServer name or IPAddress</smtpServer>
+	     <smtpPort>tcp Port</smtpPort>
+	     <smtpSender>sender mail address used for sent mails</smtpSender>
+	-->
+  <mail>
+    <smtpServer>smtp.qad.com</smtpServer>
+    <smtpPort>25</smtpPort>
+    <smtpSender>Financials@qad.com</smtpSender>
+  </mail>
+  <!-- The next section indicates configurable settings for reports -->
+  <reports>
+    <!-- The batchsize node indicates the total amount of records that is returned in each call to ProcessReportLogic
+		     (not counting the records in tqHeader, tqText and tqFilter) -->
+    <batchsize>5000</batchsize>
+    <customreports>$ENVROOT/customreports</customreports>
+  </reports>
+  <!-- The next section indicates configurable settings for transactions-->
+  <transactions>
+    <!-- The next node indicates the maximum instances in 1 transaction (default: 500) -->
+    <MaximumInstancesInTransaction>500</MaximumInstancesInTransaction>
+  </transactions>
+  <!-- The next section indicates configurable settings for backend logging-->
+  <logging>
+    <!--The directory in which the ServerLog.csv is located.-->
+    <LoggingDirectory>/qad/local/sandbox/team/fin93/build/work/logs/</LoggingDirectory>
+  </logging>
+  <state>
+    <!-- The directory in which the files for keeping state will be located.-->
+    <statedirectory>&amp;statedirectory</statedirectory>
+  </state>
+  <!-- The next section indicates the appserver that is responsible for spawning the daemon instances. -->
+  <ENVAPPSERVERURL>AppServer://coli49:18265/QADFin_AS</ENVAPPSERVERURL>
+  <!-- The next section contains the necessary information on the appserver(s) that can
+	     be used by the system to call out to other applications -->
+  <appServerConnection>
+    <!--The host on which the NameServer is running.-->
+    <nameServerHost>coli49</nameServerHost>
+    <!--The port or TCP/IP service on which the NameServer is listening.-->
+    <nameServerPort>18265</nameServerPort>
+    <!--Additional command-line options accepted by the AppServer CONNECT() method.  These are appended to the connect string used to access any of the remote AppServers.-->
+    <connectParams></connectParams>
+    <!--There is one appService element for each remote OpenEdge AppService to be invoked, where the 'serviceKey' and 'serviceInstanceKey' attributes identify the AppService for the calling application.-->
+    <appService serviceKey="AppService" serviceInstanceKey="MfgPro">
+      <!-- Name of the OpenEdge AppService in the ubroker.properties, if different from the 'key' attribute value -->
+      <appServiceName></appServiceName>
+      <!--The URL to connect and reference the AppService.  The protocol portion of the URL may be 'AppServer:', 'AppServerS:', 'AppServerDC', or 'AppServerDCS', depending on whether or not a NameServer and/or SSL is being used to access the service.  If present, it overrides the appServiceName, nameServerHost, and nameServerPort settings. -->
+      <appServiceURL>AppServer://coli49:18265/QADMFG_AS</appServiceURL>
+      <!--Indicates if the AppServer is 'session-managed'.  If true, it is assumed to be either stateless, state-reset, or state-aware.  If false, empty or omitted, it is assumed to be state-free.-->
+      <sessionManaged>true</sessionManaged>
+      <!--Additional command-line options accepted by the AppServer CONNECT() method.  These are appended to the connect string used to access the remote AppServer.-->
+      <serviceConnectParams></serviceConnectParams>
+    </appService>
+    <appService serviceKey="AppService" serviceInstanceKey="Publish">
+      <appServiceURL>AppServer://coli49:18265/QADMFG_AS</appServiceURL>
+      <procedureName>CallService</procedureName>
+    </appService>
+  </appServerConnection>
+</serverConfiguration>

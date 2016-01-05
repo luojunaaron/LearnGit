@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file contains the configuration of the business layer of the application-->
+<serverConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="serverConfiguration.xsd">
+  <!-- sessionInfoGetterProcedure can be used to override the default value of env.p -->
+  <sessionInfoGetterProcedure>env.p</sessionInfoGetterProcedure>
+  <!-- disable authentication for time being -->
+  <!-- <DisableAuthentication/> -->
+  <!-- A valid appserver needs to be specified -->
+  <appServerConnection>
+    <appService name="QADFin_AS">
+      <appServiceURL>appserver://coli49:18265/QADFin_AS</appServiceURL>
+    </appService>
+    <DebugDirectory>/qad/local/sandbox/team/fin93/build/work/logs</DebugDirectory>
+    <DebugLevel>0</DebugLevel>
+  </appServerConnection>
+</serverConfiguration>

@@ -1,0 +1,5 @@
+-db qaddb -trig triggers -H coli49 -S 18251 -N TCP -ld qaddb
+-db qadadm -trig triggers -H coli49 -S 18257 -N TCP -ld qadadm
+-db qadhelp -trig triggers -H coli49 -S 18254 -N TCP -ld qadhelp
+-yy 1950 -rereadnolock -T /tmp -c 30 -d mdy -Bt 350 -D 500 -mmax 8192 -nb 200 -s 160 -noshvarfix -inp 32000
+-cpinternal utf-8 -cpstream utf-8 -cpcoll ICU-UCA

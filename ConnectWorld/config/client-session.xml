@@ -1,0 +1,1145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+  <!--
+    The following list corresponds to the tokens that need to be updated during installation.
+ 
+    $NameServerHost          The name of the machine that is running the Progress Name Server
+    $NameServerPort          The port number that the Progress Name Server is listening on (default is 5162)
+    $AppServerBrokerName     The name of the Progress AppServer created for this configuration
+    $TomcatHostName          The name of the machine that Tomcat is running on
+    $TomcatPort              The port number that Tomcat is listening on (default is 8080)
+    $DesktopWebappName       The name of the Desktop system directory under Tomcat webapp folder
+	  $EpubURL                 The URL for the Epub webapp
+    $SearchURL               The URL for the Search webapp
+    $WebSpeedBrokerName      The name of the Progress WebSpeed broker created for this configuration
+    $WebSpeedExecutableName  The name of the WebSpeed cgi-bin executable (default is cgiip.exe on Windows and wspd_cgi.sh on *nix)
+
+    When using SSL set the ConnectionSecureProtocol to "AppServerS"
+    and set ConnectionSecureHost, ConnectionSecurePort and ConnectionSecureService
+    to the SSL enabled AppServer instance. A trusted certificate is required as well.
+    -->
+  <!-- BEGIN .NET UI AppServer Settings -->
+  <!-- 
+    The application server (AppServer) protocol. The follow values are valid:
+    
+      "AppServer"   Unsecured connection to the name server.    
+      "AppServerS"  Secure connection to the name server.
+      "AppServerDC"   Unsecure connection to the AppServer broker.
+      "AppServerDCS"  Secure connection to the AppServer broker.      
+  -->
+  <ConnectionProtocol>AppServer</ConnectionProtocol>
+  <!-- 
+     The AppServer host name. If using the "AppServer" protocol this will be the
+       NameServer host name. If using the "AppServerDC" protocol this will be the 
+       AppServer broker host name.     
+  -->
+  <ConnectionHost>coli49</ConnectionHost>
+  <!-- 
+     The AppServer port number. If using the "AppServer" protocol this will be the
+     NameServer port number. The default NameServer port number is 5164. If using the
+     "AppServerDC" protocol this will be the AppServer broker port number. 
+  -->
+  <ConnectionPort>18265</ConnectionPort>
+  <!-- 
+     The AppServer name. 
+  
+  -->
+  <ConnectionService>QADMFG_AS</ConnectionService>
+  <!-- AppServer secure protocol. Used during the authentication. -->
+  <ConnectionSecureProtocol>AppServer</ConnectionSecureProtocol>
+  <!-- The secure app server broker name. -->
+  <ConnectionSecureService>QADMFG_AS</ConnectionSecureService>
+  <!-- The secure app server host name. -->
+  <ConnectionSecureHost>coli49</ConnectionSecureHost>
+  <!-- The secure app server port number. -->
+  <ConnectionSecurePort>18265</ConnectionSecurePort>
+  <!-- The desktop protocol. Valid values are "http" or "https". -->
+  <DesktopProtocol>http</DesktopProtocol>
+  <!-- The Tomcat host name. -->
+  <DesktopHost>coli49</DesktopHost>
+  <!-- The Tomcat port number. -->
+  <DesktopPort>18260</DesktopPort>
+  <!-- The Desktop web application name. -->
+  <DesktopService>fin93</DesktopService>
+  <!-- The Desktop API servlet. -->
+  <DesktopAPI>shell.jsp</DesktopAPI>
+  <!-- The Desktop help service -->
+  <DesktopHelpService>com/qad/desktop/interface/wsep1.p</DesktopHelpService>
+  <!-- Desktop base URL -->
+  <DesktopBaseUrl>${DesktopProtocol}://${DesktopHost}:${DesktopPort}/${DesktopService}</DesktopBaseUrl>
+  <!-- Webspeed -->
+  <WebSpeedService>QADMFG_WS</WebSpeedService>
+  <!-- Webspeed path -->
+  <WebSpeedPath>cgi-bin/wspd_cgi.sh/WService</WebSpeedPath>
+  <!-- Webpeed program. -->
+  <WebSpeedProgram>com/qad/desktop/interface/wsep1.p</WebSpeedProgram>
+  <!-- Help service. -->
+  <HelpService>mfwb01.p</HelpService>
+  <!-- Process map settings -->
+  <ProcessMapBaseUrl>${DesktopProtocol}://${DesktopHost}:${DesktopPort}/pronav</ProcessMapBaseUrl>
+  <qad.url.process.editor>${ProcessMapBaseUrl}/ProcessEditor.jsp</qad.url.process.editor>
+  <qad.url.process.viewer>${ProcessMapBaseUrl}/ProcessViewer.jsp</qad.url.process.viewer>
+  <!-- Browse section -->
+  <!--
+    The maximum number of records the browse server will be count during a query.
+  -->
+  <MaximumBrowseRecordsToCount>50000</MaximumBrowseRecordsToCount>
+  <!--
+    The maximum number of records the browser server will send to the client.
+  -->
+  <MaximumBrowseRecordsToDownload>50000</MaximumBrowseRecordsToDownload>
+  <!--
+    If this number of records is exceeded during a browse print operation
+    a warning dialog box will be displayed.
+  -->
+  <BrowseRecordsForPrintWarning>10000</BrowseRecordsForPrintWarning>
+  <!--
+    If this number of records is exceeded during a browse export to Excel operation
+    a warning dialog box will be displayed.
+  -->
+  <BrowseRecordsForExcelWarning>10000</BrowseRecordsForExcelWarning>
+  <!--
+    If this number of elements is exceeded during a browse chart operation
+    a warning dialog box will be displayed.
+  -->
+  <ChartElementsForChartWarning>100</ChartElementsForChartWarning>
+  <Browse>
+    <!-- 
+      Default browse auto refresh rate in seconds 
+    -->
+    <DefaultRefreshRate>600</DefaultRefreshRate>
+    <!--
+      Minimum browse auto refresh rate in seconds
+    -->
+    <MinimumRefreshRate>30</MinimumRefreshRate>
+    <!--
+    This controls the Browse Side Panel operation.  This flag determines whether or
+    not the SidePanel will open automatically when a link is selected.
+    true:  Side Panel Program Links will open Side Panel if panel is closed
+    false: Side Panel Program Links will open new menu tab if Side Panel is closed
+    -->
+    <SidePanelAutoOpen>true</SidePanelAutoOpen>
+    <!-- This will set the timeout on a browse all records request to a single value.
+    The "Get All" request is actually a series of requests to the server.
+    A false value will treat each request separately for timeout.
+    A true value will use one timer for the set of requests.
+    
+    Suppose the timeout is 5 minutes, and 3 calls are made, each taking 4 minutes.
+    
+    A false here would not timeout, as no single request exceeds 5 minutes.
+    A true here will timeout on the second request, as the 5 minutes is used up.
+    -->
+    <TreatGetAllAsOneRequest>false</TreatGetAllAsOneRequest>
+    <!-- This controls browse collection behavior when a parent browse returns no records.
+      true = Run child browse with a "isNull" link
+      false = Clear child results and run nothing
+    
+      Default is true.
+      -->
+    <RunNullChildLinks>true</RunNullChildLinks>
+    <!-- Disallow the browse "contains" operator to avoid excessive CPU
+    usage that can occur as a result.
+    Default is true, allow contains. -->
+    <AllowContains>true</AllowContains>
+    <!-- Disallow search on non indexed fields to avoid excessive CPU
+    usage that can occur as a result.
+    Default is true, allow non indexed searches. -->
+    <AllowNonIndexedSearch>true</AllowNonIndexedSearch>
+    <Notification>
+      <!-- NotifyRole indicates which users get notified on any browse alert
+             users with this role will be notified via the inbox.
+      -->
+      <!-- Browse Timeout section
+          browseId    : regular expression to select browse(s)
+                        Blank indicates default
+          warnAt      : messages will be sent to users with the above role
+                        when a browses waits this time (minutes)
+                        0 indicates no warning
+                        Warning will continue at this interval
+          cancelAfter : Browse will be stopped after this interval (minutes)
+                        0 indicates no cancel
+                 
+                 Default is 2 minute warning and a 3 minute cancel for all browses
+        -->
+      <NotifyRole></NotifyRole>
+      <timeout browseId="" warnAt="2" cancelAfter="3"></timeout>
+      <!--  Add additional specific browse setting as required.
+      <timeout browseId="pp100" warnAt="2" cancelAfter="5"/>
+      <timeout browseId="so*" warnAt="2" cancelAfter="5"/>
+       -->
+    </Notification>
+    <!--
+    First Day of the Week in Search Conditions
+    0 = Sunday (default)
+    1 = Monday
+    ...
+    6 = Saturday
+    -->
+    <FirstDayOfTheWeek>0</FirstDayOfTheWeek>
+    <!--
+    The page size for each request in a Server File Dump action.
+    The Server File Dump is broken down into a series of requests
+    to the server. Each call will export this many records per request.
+    If server file dump requests are timing out, decrease this number.
+    -->
+    <ServerChunkSize>10000</ServerChunkSize>
+    <!-- Comma separated list of Roles which allow for Server Side Browse export. -->
+    <ServerExportRoles>ServerBrowseExport</ServerExportRoles>
+    <!-- Delimiter used to generate browse CSV files on the server. -->
+    <CSVDelimiter>,</CSVDelimiter>
+    <!-- Default for Initial Count Setting -->
+    <ServerExportDoCount>false</ServerExportDoCount>
+    <!--Excel Export format - 2003 or 2007 (xls vs xlsx file format) -->
+    <!--Default is 2007 -->
+    <ExcelFormat>2007</ExcelFormat>
+    <!-- Browse specific override -->
+    <override>
+      <suppressinitialload>
+        <!-- To suppress browse launch for specific browses
+         enter the browseid in the suppressinitialload section.
+         Use "*" to suppress all
+        -->
+        <!--
+        <id>pp100</id>
+        <id>gp340</id>
+        -->
+      </suppressinitialload>
+      <doinitialload>
+        <!-- If "*" used above, allow specific browses to load -->
+        <!--
+        <id>mg003</id>
+        -->
+      </doinitialload>
+      <novariablesubstitution>
+        <!-- Setting browse id here will disable variable substitution on the UI.
+				The user will not be able compare variables to variables, ie "sod_qty_ord < sod_qty_ship"
+				The values here are processed as Regular Expressions.
+				Thus
+				<id>.*</id>
+				will disable substitution for all browses.
+				-->
+        <!--
+				<id>pp100</id>
+				<id>gp340</id>
+				-->
+      </novariablesubstitution>
+    </override>
+  </Browse>
+  <!-- Dashboard options-->
+  <Dashboard>
+    <!-- Comma separated list of roles with administration privileges.
+         These users can manipulate system level dashboard templates. -->
+    <AdminRoles>superuser,qadadmin</AdminRoles>
+    <Padding>20</Padding>
+    <!-- Maximum number of panels allowed in a Dashboard. Set to zero for unlimited. -->
+    <MaxPanels>12</MaxPanels>
+    <!-- Provider specific panel strip colors -->
+    <ProviderColors>
+      <QAD.OPMetrics.dashboard.OpMetricsDashboard>0xc0,0x39,0x2b</QAD.OPMetrics.dashboard.OpMetricsDashboard>
+      <QAD.RolePage.UrlRoleTarget>0x8e,0x44,0xad</QAD.RolePage.UrlRoleTarget>
+      <QAD.Plugin.BI.DashboardProvider>0x27,0xae,0x60</QAD.Plugin.BI.DashboardProvider>
+      <QAD.Browse.dashboard.BrowseDashboardTarget>0xf3,0x9c,0x12</QAD.Browse.dashboard.BrowseDashboardTarget>
+    </ProviderColors>
+  </Dashboard>
+  <!-- BI Portal base URL. Ex. http://localhost/qadbi -->
+  <BI.Dashboard.Url></BI.Dashboard.Url>
+  <!-- BI Plugin session timeout in milliseconds. The BI Portal uses Tomcat session management and therefore the BI Plugin 
+       timeout value must be less than the Tomcat session timeout, which defaults to 30 min. 
+	   The default BI Plugin timeout is 25 minutes (1500000 ms). -->
+  <BI.Session.Timeout>1500000</BI.Session.Timeout>
+  <!-- Default timeout for MFG AppServer communication -->
+  <AppServer>
+    <!-- Timeout in minutes. 0 is no override.
+    This is used for AIA enabled environments.  The default timeout from Progress is 100 seconds for AIA.
+    This number can be a decimal, specified in en-US format (period is the decimal point).
+    -->
+    <Timeout>0</Timeout>
+    <!-- Requests to MFG exceeding this time will write a message in the AppServer Log -->
+    <WarningTime>60</WarningTime>
+  </AppServer>
+  <!-- Terminal Section -->
+  <!--
+    A URL to the Routrek.Granados.dll file located on the HomeServer that is required
+    for terminal connections using the SSH protocol. This file is not delivered with the QAD .NET UI
+    due to exportation laws regarding encryption. 
+
+           Download       http://www.routrek.co.jp/support/download/varaterm/granados200.tar.gz
+           File           Routrek.Granados.dll
+       Size           143,360 bytes
+           Version        2.0.0.0
+           SHA-1 Hash     10432c3ebbb8b754ef98b89bbd54db674df0f012        # Use sha1sum on Linux or fciv.exe -sha1 on Windows (see http://support.microsoft.com/kb/841290)       
+  -->
+  <SshProviderUrl>${HomeServer}/Routrek.granados.dll</SshProviderUrl>
+  <!--
+    The protocol to use during terminal connections. The following values are valid:
+    
+      telnet    Unsecure telnet protocol.
+      ssh1    Secure SSH1 protocol.
+      ssh2    Secure SSH2 protocol.
+  -->
+  <TerminalProtocol>telnet</TerminalProtocol>
+  <!--
+Supporting multiple languages requires the TerminalEncoding setting to be synchronized with -cpstream 
+setting for the character Progress session. When starting a Progress client session you can supply a 
+-cpstream <encoding> parameter that will transform the internal database encoding sent to the client. 
+The client side must know which encoding is being sent in order to display the correct characters on the 
+screen and return the correct data to the Progress client. The following table maps the TerminalEncoding 
+setting by language, platform and cpstream setting.
+
+Windows OS TerminalEncoding = utf-8 for all languages
+
+Unix OS Encoding Table
+
+QAD Lang  Language              Progress Codepage   TerminalEncoding
+========= ===================== =================== ====================
+us        English               iso8859-1           iso-8859-1    
+jp        Japanese              shift-jis           shift-jis
+ch        Simplified Chinese    gb2312              gb2312
+ge        German                iso8859-1           iso-8859-1
+bu        Bulgarian             1251                windows-1251
+cz        Czech                 1250                windows-1250
+da        Danish                iso8859-1           iso-8859-1 
+du        Dutch                 iso8859-1           iso-8859-1
+fr        French                iso8859-1           iso-8859-1
+it        Italian               iso8859-1           iso-8859-1
+no        Norwegian             iso8859-1           iso-8859-1
+po        Portuguese            iso8859-1           iso-8859-1
+cs        Castilian Spanish     iso8859-1           iso-8859-1
+ls        Latin America Spanish iso8859-1           iso-8859-1
+sw        Swedish               iso8859-1           iso-8859-1
+hu        Hungarian             1250                windows-1250 
+pl        Polish                1250                windows-1250
+ro        Romanian              1250                windows-1250
+ru        Russian               1251                windows-1251
+tu        Turkish               1254                windows-1254 
+tw        Traditional Chinese   big-5               big5
+ko        Korean                ksc5601             ksc5601
+fi        Finnish               iso8859-1           iso-8859-1
+lt        Lithuanian            1257                windows-1257
+ua        Ukranian              1251                windows-1251          
+  -->
+  <TerminalEncoding>UTF-8</TerminalEncoding>
+  <!--
+    The user name and password used during terminal authentication. The following values are valid:
+    
+      ScriptUser    The user name and password defined in "User Option Telnet Maintenance (36.20.10.3)"
+      ShellUser       The user name and password used during login to the current .NET UI session.
+      PromptUser      The user name and password must be provided at runtime.
+  -->
+  <TerminalAuthentication>ScriptUser</TerminalAuthentication>
+  <!-- Disable terminal for configured screens. 
+    true - Terminal mode disabled for configured screens
+    false - enabled, allows user to bypass configured screens
+  -->
+  <TerminalDisabledOnConfiguredScreens>true</TerminalDisabledOnConfiguredScreens>
+  <!-- Desktop Section -->
+  <Desktop>
+    <!-- Leaving the last field on frame will automatically submit the frame. -->
+    <GoOnLastField>false</GoOnLastField>
+    <!-- Web Request timeout, valid range is 10 - 120 seconds -->
+    <RequestTimeout>30</RequestTimeout>
+    <!-- Message Field Font and Color-->
+    <!--<MessageFont>Microsoft Sans Serif, 12pt</MessageFont>-->
+    <!--<MessageColor>Black</MessageColor>-->
+    <!-- Cell Font -->
+    <!--<CellFont>Microsoft Sans Serif, 12.25pt</CellFont>-->
+  </Desktop>
+  <!-- HomePage Section -->
+  <!-- 
+    Enables/disables the home page.
+  -->
+  <HomePage.Enabled>true</HomePage.Enabled>
+  <!-- 
+    Any valid URL. To launch a .NET UI program you may use the "qadsh" URL scheme. See the menu item 
+        "Properties" dialog for the URL associated with a specific program.
+  -->
+  <HomePage.Url>qadsh://process/view?ProcessName=home&amp;BreadCrumb=yes</HomePage.Url>
+  <!-- GuideMe Section -->
+  <!--
+	When set to "true" unresolved tokens are displayed and the Browser context menu is enabled. Tokens
+	are in the form {help:program:field} and by default unresolved tokens are not displayed.
+  -->
+  <GuideMe.Debug>false</GuideMe.Debug>
+  <!--
+    Enables/disables the GuideMe feature.
+  -->
+  <GuideMe.Enabled>true</GuideMe.Enabled>
+  <!--
+    Sets the time in milliseconds the mouse must hover over a control region before diplaying 
+	the GuideMe tooltip.
+  -->
+  <GuideMe.ShowDelay>500</GuideMe.ShowDelay>
+  <!--
+	Sets the time in milliseconds to display the GuideMe tooltip before hiding the tooltip. A
+	value of zero indicates the tooltip will not be hidden until the mouse leaves the control
+	region.
+  -->
+  <GuideMe.HideDelay>0</GuideMe.HideDelay>
+  <!--
+	Enables/disables GuideMe animation. Animation can cause performance issues in Citrix environments 
+	and can be disabled using this setting.
+  -->
+  <GuideMe.Animation>true</GuideMe.Animation>
+  <!--
+    NOTE: This setting has been replaced by the "QAD.Authentication.ActiveDirectory.Enabled" setting.
+  <QAD.Authentication.ActiveDirectory>true</QAD.Authentication.ActiveDirectory>    
+  -->
+  <!--
+	Enables/disables Active Directory authentication. Replaces the previous setting "QAD.Authentication.ActiveDirectory". The setting
+	no longer needs to be commented out in order to disable the setting. All Active Directory settings must be defined on the HomeServer in either
+	the "client-session.xml" or "client-bootstrap.xml" files.
+  -->
+  <QAD.Authentication.ActiveDirectory.Enabled>false</QAD.Authentication.ActiveDirectory.Enabled>
+  <!--
+  The default Active Directory domain. If a domain is not specified the current PC domain is used. Domains are resolved in the following order:
+  
+      1) Login form. Users may specify a domain using the syntax "{domain}\{username}"
+      2) Configuration setting "QAD.Authentication.ActiveDirectory.Domain"
+      3) Currently active PC domain 	  
+  -->
+  <QAD.Authentication.ActiveDirectory.Domain></QAD.Authentication.ActiveDirectory.Domain>
+  <!--
+	A comma delimited list of valid domains used during Active Directory authentication.
+  -->
+  <QAD.Authentication.ActiveDirectory.ValidDomains></QAD.Authentication.ActiveDirectory.ValidDomains>
+  <!-- 
+  The cipher version determines the algorithm used when encrypting stored credentials. Valid values are 1 or 2. Version 1 requires re-encryption of stored 
+  credentials whenever a user's Windows password changes, while version 2 does not. Version 2 is the default value.  
+   -->
+  <QAD.Authentication.ActiveDirectory.CipherVersion>2</QAD.Authentication.ActiveDirectory.CipherVersion>
+  <!-- Message Settings -->
+  <!--
+     The frequency to retrieve messages from the server in milliseconds. The default value is 5 minutes (300000).
+  -->
+  <QAD.Message.Poller.Frequency>300000</QAD.Message.Poller.Frequency>
+  <!-- Web settings -->
+  <Web.ConnectionLimit>11</Web.ConnectionLimit>
+  <!-- 2 hour timeout -->
+  <Web.DnsRefreshTimeout>7200000</Web.DnsRefreshTimeout>
+  <!-- 10 second session keep alive.  This has to be less than the expected Webserver value! -->
+  <Web.MaxServicePointIdleTime>10000</Web.MaxServicePointIdleTime>
+  <!-- WebDAV UTF-8 Conversion on the Home Server
+      True:  WebDAV Server does not use UTF-8 encoding (Tomcat default is ISO8859-1)
+      False: WebDAV Server expects UTF-8 and converts automatically
+      
+      For Tomcat, see URIEncoding in the <Connector> element within the server.xml file.
+      If URIEncoding is UTF-8, then set this to false.
+      -->
+  <Web.WebdavUtf8Conversion>true</Web.WebdavUtf8Conversion>
+  <Attachment>
+    <!-- Set this to override the default WebDAV repository.
+         This only applies if MFG/PRO does not set the directory.
+         Note: This WebDAV should be UTF-8 enabled (URIEncoding) to completely support the
+         WebDAV standard
+         -->
+    <!--
+    <WebDAVRoot>${HomeServer}/webdav/docs</WebDAVRoot>
+    -->
+    <!-- Set to false to disable attachments -->
+    <AttachmentsEnabled>true</AttachmentsEnabled>
+    <!-- 
+    MaxFileSize restricts the size of files the user can attach.  The size is kilobytes
+    0 is no limit -->
+    <MaxFileSize>0</MaxFileSize>
+    <!--
+    ValidFileTypes is a comma separated list of file types allowed for attachment.
+    With no size, use default size.
+    With no typeid, it applies to all unmatched typeids.
+    -->
+    <ValidFileTypes></ValidFileTypes>
+    <!-- Multiple definitions are allowed. For eaxmple: 
+    <ValidFileTypes>xml,,p</ValidFileTypes>
+    -->
+    <!-- Allow specific filetypes to be larger by including size -->
+    <!-- 
+    <ValidFileTypes size="3096">zip</ValidFileTypes>
+    -->
+    <!-- When typeid is specified, this overwrites the defaults above for a particular
+    attachment area 
+    The typeid can be obtained by right clicking the attachment area and viewing the properties.
+    The typeid is seen in the 3rd directory key.
+    The typeid for Attachment Maintenance controlled areas is the DocumentType Id.
+    -->
+    <!--
+    <ValidFileTypes typeid="ppptmt.p" size="2048">txt,xml</ValidFileTypes>
+    <ValidFileTypes typeid="ppptmt.p" size="0">zip</ValidFileTypes>
+    -->
+  </Attachment>
+  <!--
+    Defines the workspace provider. 
+  
+    QAD.Plugin.Services.DomainWorkpsaceProvider         Creates one workspace per domain             
+    QAD.Plugin.Services.DomainEntityWorkspaceProvider   Creates one workspace per domain + entity
+  -->
+  <Workspace.Provider>QAD.Plugin.Services.DomainEntityWorkspaceProvider</Workspace.Provider>
+  <!--
+    Defines the format of a workspace display name. The following variables may be used to 
+    customize the workspace name.
+  
+    db-name         Database name
+    domain-name     Domain name
+    domain-id       Domain ID
+    currency        Currency name
+    entity-name     Entity name
+    entity-id       Entity ID
+    culture-name    Culture name
+    
+    domain-timezone Server Timezone name for domain
+    domain-tzoffset Server Timezone offset for domain (+HH:MM format)
+    domain-codepage Server codepage used for domain
+    
+    Default formats:
+    QAD.Plugin.Services.DomainWorkspaceProvider = ${domain-name}
+    QAD.Plugin.Services.DomainEntityWorkspaceProvider = ${domain-id} ${domain-name} [${currency}] ${entity-id} > ${entity-name}
+  -->
+  <Workspace.Format>${domain-id} ${domain-name} [${currency}] &gt; ${entity-id} ${entity-name}</Workspace.Format>
+  <!-- Set the color for the tools bars for this configuration -->
+  <Workspace.DefaultToolBarColor>233,233,233</Workspace.DefaultToolBarColor>
+  <Workspace.DefaultToolBarColor2>233,233,233</Workspace.DefaultToolBarColor2>
+  <!-- Optional set of toolbar colors by Workspace 
+  
+  Allows individual workspaces to have different toolbar color
+  
+  Note: workspace id is typically domain-id.entity_id .
+  You will need to know your ids to enter this data.
+  
+  <Workspace.workspaceid1.ToolBarColor>Silver</Workspace.workspaceid1.ToolBarColor>
+  <Workspace.workspaceid1.ToolBarColor2>LightGray</Workspace.workspaceid1.ToolBarColor2>
+  <Workspace.workspaceid2.ToolBarColor>LightGray</Workspace.workspaceid2.ToolBarColor>
+  <Workspace.workspaceid2.ToolBarColor2>Silver</Workspace.workspaceid2.ToolBarColor2>
+  ....
+  
+  -->
+  <!-- 
+    Defines AppServer Logs attached to the Error Report. Each entry refers to a different AppServer. 
+	
+	Notes: 
+	
+	1. Pages stored in the ${DesktopBaseUrl}/admin directory have restricted access.
+	2. The "$FinAppServerName" token is replaced during installation with the Financials AppServer name.
+  -->
+  <Diagnostics.AppServerLog>${DesktopBaseUrl}/admin/AppServerLog.jsp?name=${ConnectionService}&amp;max=1000</Diagnostics.AppServerLog>
+  <Diagnostics.AppServerLog>${DesktopBaseUrl}/admin/AppServerLog.jsp?name=QADFin_AS&amp;max=1000</Diagnostics.AppServerLog>
+  <!-- QAD Financials Settings -->
+  <configSections>
+    <section name="cachingConfiguration" type="Microsoft.Practices.EnterpriseLibrary.Caching.Configuration.CacheManagerSettings, Microsoft.Practices.EnterpriseLibrary.Caching, Version=3.1.0.0, Culture=neutral, PublicKeyToken=c0359ed26d3edeb6"></section>
+    <section name="qad.logging" type="QAD.BaseTypes.LogConfigHandler, QAD.BaseTypes"></section>
+    <section name="qad.appserver" type="QAD.AppServer.ASConfigHandler, QAD.AppServer"></section>
+  </configSections>
+  <!-- Financials AppServer URL -->
+  <qad.appserver url="appserver://coli49:18265/QADFin_AS"></qad.appserver>
+  <TranslationTracing></TranslationTracing>
+  <RemotingURL></RemotingURL>
+  <!-- 
+            Directory where report files (*.rpt) are stored. Only one directory
+            can be specified. 
+            Ex. ..\..\..\QadFinForms\QadFinForms\Reports\
+    -->
+  <ReportFolder>${storage.directory}\qad.plugin.financials\Reports</ReportFolder>
+  <!-- 
+            Directory where the application is looking for images. 
+            More directories can be specified, separated by semicolon .
+            Ex. ..\..\..\BaseLibrary\Images\;..\..\..\QadFinForms\Images\
+    -->
+  <ImageFolder>Images\</ImageFolder>
+  <!-- 
+            File where UI appearance on system level is specified.
+            See also UCR Appearances.doc documentation. 
+            Ex. ..\..\..\BaseLibrary\Appearances\Appearances.xml
+    -->
+  <SystemAppearance>Appearances\Appearances.xml</SystemAppearance>
+  <!-- 
+            File where UI appearance on user level is specified. 
+            See also UCR Appearances.doc documentation. 
+            Ex. ..\..\..\BaseLibrary\Appearances\Office11.xml
+     -->
+  <UserAppearance>Appearances\Office11.xml</UserAppearance>
+  <!-- 
+           Directory where ct*.log files are created. These log files
+           contain messages generated by the business. 
+           Ex. C:\Develop\CBF\Temp\
+    -->
+  <BLDebugDirectory>.</BLDebugDirectory>
+  <!-- 
+            Directory where the application stores its temporary files. User
+            that start the application has to have read-write privileges on this directory. 
+    -->
+  <TempFolder>%TEMP%</TempFolder>
+  <ConnectionPoolOperationMode>LIFO:1:1:5</ConnectionPoolOperationMode>
+  <!-- 
+            The assemblies that are loaded to search for application forms.
+            Usage:
+              Required.  Registers the application forms 
+    -->
+  <RootUIAssemblies>QadFinForms,QadFinForms.Budgetting,QadFinForms.BusinessRelation,QadFinForms.Consolidation,QadFinForms.DaemonSetup,QadFinForms.EmployeeLedger,QadFinForms.FixedAssets,QadFinForms.GeneralLedger,QadFinForms.GeneralUtilities,QadFinForms.Integration,QadFinForms.PaymentInstruments,QadFinForms.Project,QadFinForms.PurchaseLedger,QadFinForms.SalesLedger,QadFinForms.SystemAdministration,QadFinForms.VATSetup,BaseForms,BaseForms.Reporting,BaseForms.Customisation,BaseForms.DaemonSetup,BaseForms.GeneralUtilities,BaseForms.SystemAdministration</RootUIAssemblies>
+  <!-- Enable tracing to this file: -->
+  <!-- <TraceFile>c:/tmp/trace.txt</>-->
+  <HelpFileName>QAD2008_Financials.chm</HelpFileName>
+  <!-- Indicates whether the Shortcuts panel is shown in the navigation menu -->
+  <ShowShortcuts>off</ShowShortcuts>
+  <!-- Tell Progress O4GL client to wait 10 seconds for answer of the AppServer (default is 1 second: 1000) -->
+  <PROGRESS.Session.SocketTimeout>60000</PROGRESS.Session.SocketTimeout>
+  <!-- Tell Progress O4GL client to retry 30 times if AppServer answer timed out (default is 1000 times)-->
+  <PROGRESS.Session.TcpClientRetry>5</PROGRESS.Session.TcpClientRetry>
+  <!-- Tell Progress O4GL client to wait 100 milliseconds before retrying (default is 250) -->
+  <PROGRESS.Session.TcpClientRetryInterval>250</PROGRESS.Session.TcpClientRetryInterval>
+  <!-- 
+        Specify detail level of messages stored in ct*.log file. 
+        Possible values:
+          "0": Nothing
+          "1": Business code
+          "2": DB access
+          "3": Business code + DB access 
+    -->
+  <BLDebugLevel>0</BLDebugLevel>
+  <!--
+        List of components or queries that are normally included in the cache for their result of the call to GetBusinessFields.
+        The results of the call to GetBusinessFields will not be cached for these components and queries.
+	    Example: BSaf,BGL.SelectGL
+	    Attention: these entries are case-sensitive!
+  -->
+  <CachingExceptions></CachingExceptions>
+  <!-- 
+        Specify whether UI messages should be logged. If it is activated, 
+        then they are logged to the system Event Log and can be seen in the Event Viewer.
+        Possible values: 
+          "on": Messages are logged 
+          "off":  Logging is disabled 
+    -->
+  <LogEnabling>off</LogEnabling>
+  <!-- 
+        Specify detail level of messages logged by the UI. 
+        Possible values:
+          "exception":  Logs only unhandled exceptions
+          "error":    Logs also expected errors
+          "warning":    Logs also warning messages
+          "message":    Logs all messages produced by the UI 
+    -->
+  <LogLevel>0</LogLevel>
+  <!-- 
+        Specify whether both business an UI debug messages are collected. They
+        can be displayed in window accessible in 'Logging' menu option. 
+        It is recommended to disable debug messages on production systems as
+        it causes performance slowdown.
+        Possible values: 
+          "on": Debug messages are logged 
+          "off":  Debug messages are not logged 
+    -->
+  <UIDebugEnabling>off</UIDebugEnabling>
+  <!-- 
+        Specify whether the MDI should display forms as tab items. 
+        Possible values: 
+          "on": Every form is displayed in separated tab control 
+          "off":  Forms are displayed in floating windows 
+    -->
+  <EnableUltraMDITabbedManager>off</EnableUltraMDITabbedManager>
+  <!-- 
+        Specify time in minutes. If cached value is not used for specified time,
+        then it can be removed from cache. 
+    -->
+  <DefaultMemoryCacheExpirationTime>1440</DefaultMemoryCacheExpirationTime>
+  <DefaultPersistentCacheExpirationTime>1440</DefaultPersistentCacheExpirationTime>
+  <!-- 
+        Comma separated list of file extensions. Files with these extensions
+        are not displayed by the internal viewer, but by external application associated
+        with the extension. 
+    -->
+  <InternalViewerExclude>gif, bmp, pdf, jpg, jpeg, tif, tiff</InternalViewerExclude>
+  <!-- 
+        Specify whether colon is displayed after every label on the form. 
+        Possible values: 
+          "on": Display colon 
+          "off":  Doesn't display colon 
+    -->
+  <LabelColon>off</LabelColon>
+  <!-- 
+        If this setting is set to true, and you click in a numeric editor 
+        in the empty space at the front of the control, the whole text in the control 
+        will be selected.
+          "on": Whole text is selected when click
+          "off":  Nothing is selected when click 
+    -->
+  <NumericEditorSelectTextOnEnterViaMouse>on</NumericEditorSelectTextOnEnterViaMouse>
+  <!-- 
+        The time in milliseconds after which a progress bar is shown while communication with the server. 
+    -->
+  <CommunicationProgressbarThreshold>1000</CommunicationProgressbarThreshold>
+  <!-- 
+        The threshold in milliseconds for server communication to switch to WAN mode. 
+    -->
+  <WanThreshold>1000</WanThreshold>
+  <!-- 
+        Default zoom factor that is used when report is opened in full screen. 
+        Possible values: 
+          "1": Report width is fit to the screen  
+          "2": Whole report is fit to the screen 
+          any other number: Zoom in per-cents 
+    -->
+  <ReportZoom>85</ReportZoom>
+  <!-- 
+        Specify whether buttons that collapse panels are displayed on the desktop.  
+        Possible values: 
+          "on": Display collapse buttons  
+          "off": Hide collapse buttons 
+    -->
+  <ShowCollapseButton>on</ShowCollapseButton>
+  <!-- 
+        Specify whether logo is displayd on upper-right desktop corner.
+        Possible values: 
+          "on": Display logo  
+          "off": Hide logo 
+    -->
+  <ShowLogo>on</ShowLogo>
+  <!-- 
+        Specify whether task panel with activities is displayed on a form.
+        Possible values: 
+          "on": Display task panel  
+          "off": Hide task panel 
+    -->
+  <ShowTaskPanel>on</ShowTaskPanel>
+  <!-- URL where the application supplier web pages are located. -->
+  <WebSiteURL>http://www.qad.com</WebSiteURL>
+  <!-- URL where the application support web pages are located. -->
+  <SupportSiteURL>http://support.qad.com</SupportSiteURL>
+  <!-- Interval in milliseconds in which items in the work inbox are refreshed. -->
+  <WorkAssistantRefreshInterval>300000</WorkAssistantRefreshInterval>
+  <!-- Maximal memory size in bytes that can be allocated by application. -->
+  <MaxWorkingSetSize>209715200</MaxWorkingSetSize>
+  <!-- Maximal allowed deviation from MaxWorkingSetSize. Value is in percents. -->
+  <MaxWorkingSetSizeExceedPercentage>10</MaxWorkingSetSizeExceedPercentage>
+  <!-- Display Date and Number values using the current client machine formats -->
+  <UseLocalDateAndNumberFormats>true</UseLocalDateAndNumberFormats>
+  <!-- QAD Search Engine URL -->
+  <ContentIndexServer>http://coli49:18260/search</ContentIndexServer>
+  <!-- The QAD Search Engine index that will be the target of searches -->
+  <ContentIndex>default</ContentIndex>
+  <!-- QAD ePublisher content server URL -->
+  <EPublisherServer>http://coli49:18260/epub</EPublisherServer>
+  <!-- 
+	Error reports use SMTP to send email. Use the "Smtp.Host" and "Smtp.Port" configuration
+	settings to configure the email.  
+	-->
+  <!-- Maximum number of session logs to save for error reporting -->
+  <ErrorReport.MaxLogs>25</ErrorReport.MaxLogs>
+  <!-- 
+	Enable or disable error reporting. When enabled unhandled exceptions will trigger 
+	the error report dialog when the "Exceptions.Unhandled.Suppress" setting is false.
+ 	-->
+  <ErrorReport.Enabled>false</ErrorReport.Enabled>
+  <!-- Default error report from email address. -->
+  <ErrorReport.From>anonymous@qad.com</ErrorReport.From>
+  <!-- Error report to email address. Separate multiple email addresses with commas. -->
+  <ErrorReport.To></ErrorReport.To>
+  <!-- Enables suppression of unhandled exception notification. Suppressed exceptions will still be logged. -->
+  <Exceptions.Unhandled.Suppress>true</Exceptions.Unhandled.Suppress>
+  <!--
+      ****************************************
+      * LOGGING CONFIGURATION
+      ****************************************
+      (see RemotingServer/app.config for details)
+      Note: This section is required
+    -->
+  <qad.logging name="CBF">
+    <writer name="lwa" type="QAD.Plugin.Financials.LogWriterAdapter,QAD.Plugin.Financials"></writer>
+    <logger level="4" writer="lwa"></logger>
+  </qad.logging>
+  <!-- Caching -->
+  <cachingConfiguration defaultCacheManager="Memory Cache Manager">
+    <cacheManagers>
+      <add expirationPollFrequencyInSeconds="60" maximumElementsInCacheBeforeScavenging="1000" numberToRemoveWhenScavenging="10" backingStoreName="Isolated Storage" name="Persistent Cache Manager"></add>
+      <add expirationPollFrequencyInSeconds="60" maximumElementsInCacheBeforeScavenging="1000" numberToRemoveWhenScavenging="10" backingStoreName="Cache Storage" name="Memory Cache Manager"></add>
+    </cacheManagers>
+    <backingStores>
+      <add encryptionProviderName="" type="Microsoft.Practices.EnterpriseLibrary.Caching.BackingStoreImplementations.NullBackingStore, Microsoft.Practices.EnterpriseLibrary.Caching, Version=3.1.0.0, Culture=neutral, PublicKeyToken=c0359ed26d3edeb6" name="Cache Storage"></add>
+      <add partitionName="QAD.Financials" encryptionProviderName="" type="Microsoft.Practices.EnterpriseLibrary.Caching.BackingStoreImplementations.IsolatedStorageBackingStore, Microsoft.Practices.EnterpriseLibrary.Caching, Version=3.1.0.0, Culture=neutral, PublicKeyToken=c0359ed26d3edeb6" name="Isolated Storage"></add>
+    </backingStores>
+  </cachingConfiguration>
+  <DotNetInquiries>
+    <Inquiry>msmsiq.p</Inquiry>
+    <Inquiry>crwciq01.p</Inquiry>
+    <Inquiry>crdpiq01.p</Inquiry>
+    <Inquiry>drmpiq.p</Inquiry>
+    <Inquiry>mrmpiq.p</Inquiry>
+    <Inquiry>dntmiq01.p</Inquiry>
+    <Inquiry>rprsiq01.p</Inquiry>
+    <Inquiry>rprsiq02.p</Inquiry>
+    <Inquiry>rprsiq03.p</Inquiry>
+    <Inquiry>rprsiq04.p</Inquiry>
+  </DotNetInquiries>
+  <!--
+	      The .NET UI Browse Maintenance workbench's import/export/batch delete utilities
+              configuration. The three parameters are:
+	  
+	      name          = The name of the utility; only Import, Export, or MultipleDelete are
+                              supported
+	      enabled       = Whether the utility should appear under the Action toolbar menu in the 
+                              workbench
+	      authorization = A comma separated list of authorized login IDs or groups. * indicates all 
+                              users are authorized that have access to the Browse Maintenance menu item.
+
+                              Examples:
+                                "*"                  => all users
+                                "pjt"                => only the user identified by the Shell login ID, pjt, 
+                                                        has access
+                                "pjt, qadadmin, jqs" => the users or groups identified by the Shell logins, pjt, 
+                                                        qadadmin, and jqs have access
+    -->
+  <DotNetBrowseMaintenanceUtilities>
+    <Utility name="Import" enabled="true" authorization="*"></Utility>
+    <Utility name="Export" enabled="true" authorization="*"></Utility>
+    <Utility name="MultipleDelete" enabled="true" authorization="*"></Utility>
+  </DotNetBrowseMaintenanceUtilities>
+  <!--
+	  The .NET UI Browse Maintenance Restricted Tables list. These tables are not visible
+          in the 'Add Tables' dialog to users or groups listed in the restricted parameter.
+          Browses containing them cannot be loaded by restricted users. 
+          The two parameters are:
+	  
+	      name          = The name of the table
+              database      = The name of the database containing the table	      
+	      restricted    = A comma separated list of authorized login IDs or groups. CAUTION: * indicates 
+                              no users are authorized to use the tables or view browses containing them. Again,
+                              this is a list of users who DO NOT have access to the listed table (it is a 
+                              restricted table list). If a table is not in this list, it has no restrictions.
+
+                              Examples:
+                                "*"               => all users are restricted (i.e. no users have access)
+                                "pjt"             => only the user or group identified by pjt is restricted
+                                "pjt, admin, jqs" => the users or groups identified by pjt, admin, and jqs 
+                                                     are restricted
+    -->
+  <DotNetBrowseMaintenanceRestrictedTables>
+    <Table name="cnt_mstr" database="qaddb" restricted="*"></Table>
+    <Table name="hwm_det" database="qaddb" restricted="*"></Table>
+    <Table name="lcap_hist" database="qaddb" restricted="*"></Table>
+    <Table name="lpm_mstr" database="qaddb" restricted="*"></Table>
+    <Table name="lpmd_det" database="qaddb" restricted="*"></Table>
+    <Table name="lua_det" database="qaddb" restricted="*"></Table>
+    <Table name="lvr_det" database="qaddb" restricted="*"></Table>
+    <Table name="pin_mstr" database="qaddb" restricted="*"></Table>
+    <Table name="pex_mstr" database="qaddb" restricted="*"></Table>
+  </DotNetBrowseMaintenanceRestrictedTables>
+  <!--
+       This setting determines whether the output of the Progress INDEX-INFORMATION attribute
+       for a query, is displayed to the user when there is an issue (i.e. table scan => WHOLE-INDEX).
+
+       This setting is configurable by the user in Tools|Options, overriding this setting.
+   -->
+  <DotNetBrowseMaintenanceShowIndexInformation>true</DotNetBrowseMaintenanceShowIndexInformation>
+  <!--
+   MFG/PRO lookups which imply a generalized code
+   A blank codeName implies the field name is used.
+   -->
+  <QView>
+    <GeneralizedCodeLookup codeName="cm_shipvia">adlu027.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">cclu002.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="fa_disp_rsn">falu017.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="fsgroup">fslu058.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_buyer">gplu001.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="po_buyer">gplu002.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="so_stat">gplu005.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ad_city">gplu008.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_sys_type">gplu035.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ca_category">gplu049.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ca_resolve">gplu053.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="srr_problem">gplu055.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ca_severity">gplu057.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="">gplu072.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="cm_region">gplu129.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_group">gplu130.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_part_type">gplu134.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="fsskill">gplu194.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="sch_sd_pat">gplu212.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="srr_severity">gplu252.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="srr_type">gplu253.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="txhd_stat_proc">gplu256.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="txb_base">gplu269.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="tx2_method">gplu271.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="gru_unit">gplu277.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ieh_port">gplu319.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ieh_terms_deliv">gplu320.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ieh_flow">gplu329.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ieh_nat_trans">gplu331.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ieh_region">gplu333.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ieh_stat_proc">gplu334.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="ieh_mode_transp">gplu337.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="tr_type">gplu376.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="eu_type">gplu378.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_svc_group">gplu385.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="so_channel">gplu392.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_model">gplu399.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="subtype">gplu527.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_run_seq1">gplu780.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_run_seq2">gplu781.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="loc_type">gplu784.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="line_category">gplu800.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="schtype">gplu801.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="cm_class">gplu803.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_part_type">gplu804.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_pm_code">gplu805.p</GeneralizedCodeLookup>
+    <!--
+    <GeneralizedCodeLookup codeName="@c-brparm1">gplu806.p</GeneralizedCodeLookup>
+    -->
+    <GeneralizedCodeLookup codeName="ctry_code1">gplu808.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="">gplu906.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="">gplu941.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="">gplu942.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="">gplu943.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="">gplu944.p</GeneralizedCodeLookup>
+    <!--
+    <GeneralizedCodeLookup codeName="@c-brparm3">gplu945.p</GeneralizedCodeLookup>
+    -->
+    <GeneralizedCodeLookup codeName="">gplu946.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="knb_planner">kblu106.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="prompt_val_locations">mglu246.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="qqc_timezone">qqlu022.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="rcsd_status">rclu103.p</GeneralizedCodeLookup>
+    <!--
+    <GeneralizedCodeLookup codeName="@c-brparm1">rplu007.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">rplu008.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">rplu009.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">rplu010.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">rplu011.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="rptres_datasource_type">rplu012.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="cStatus">rplu020.p</GeneralizedCodeLookup>
+    -->
+    <GeneralizedCodeLookup codeName="frcd_class">solu001.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="so_cr_init">solu015.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="socc_card_type">solu017.p</GeneralizedCodeLookup>
+    <!--
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu039.p</GeneralizedCodeLookup>
+    -->
+    <GeneralizedCodeLookup codeName="shphv_field">solu043.p</GeneralizedCodeLookup>
+    <!--
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu050.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu052.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu054.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu056.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu058.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu060.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu062.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="@c-brparm1">solu064.p</GeneralizedCodeLookup>
+    -->
+    <GeneralizedCodeLookup codeName="SystemCode">whlu019.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="SystemFlavor">whlu020.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="PartType">whlu047.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="EngType">whlu205.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="PrintFlavor">whlu206.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="PrintProcCode">whlu207.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="WaveSort">whlu208.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="TaskInquiryOption">whlu209.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="RepType">whlu210.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="IssueMethod">whlu211.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="Route">whlu212.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="PrintBanner">whlu216.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="PrintLabel">whlu217.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_net_wt_um">whlu241.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="pt_size_um">whlu242.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="SelLoadAlgo">whlu244.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="abs_fob">whlu245.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="abs_trans_mode">whlu246.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="abs_veh_ref">whlu247.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="TMSDocType">whlu248.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="abs_pay_type">whlu249.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="abs_shipvia">whlu251.p</GeneralizedCodeLookup>
+    <GeneralizedCodeLookup codeName="abs_shipvia">whlu252.p</GeneralizedCodeLookup>
+    <SubAccountLookup>gplu975.p</SubAccountLookup>
+    <CostCenterLookup>gplu600.p</CostCenterLookup>
+    <ProjectIdLookup>gplu602.p</ProjectIdLookup>
+    <!-- Users with access to the program mgcodemt.p will have edit access for all 
+         Generalized codes.  To allow selective access to specific codes, create a 
+         reference as shown below.  The code name is the Generalized Code value,
+         as seen in mgcodemt.  Usually this is the field name of the field on the
+         screen.  The value is the Role which will get write access to the field.
+         
+         The following block will allow users with role of "ItemAdmin" to edit
+         generalized codes for the Unit of Measure (pt_um) and Group (pt_group)
+         fields.  Users with role of "OrderClerk" assigned to them will be allowed to
+         edit the Group only.
+        
+         The codeName here matches the codeName seen above for mapping code via the
+         lookup assigned processing.  As with lookups above, the actual processing
+         of generalized codes is done on the server.  Enabling field access here
+         does not enable actual generalized code processing.  To do this requires
+         modification of the server side code.
+        -->
+    <!--
+    <GeneralizedCodeEditRole codeName="pt_um">ItemAdmin</GeneralizedCodeEditRole>
+    <GeneralizedCodeEditRole codeName="pt_group">OrderClerk</GeneralizedCodeEditRole>
+    <GeneralizedCodeEditRole codeName="pt_group">ItemAdmin</GeneralizedCodeEditRole>
+    -->
+    <TextReportLines>100000</TextReportLines>
+    <!-- Max records for Generalized Code Pull Down lists 
+      less than 0    = No GC Pull Down Lists in QView
+      0              = No limit on list size (Default)
+      greater than 0 = Show GC Pull Down only when list has n or less elements.
+                       (MFG/PRO will also limit values is dataset returned)
+                       This is intended for cases where the GC list is so large it
+                       ties up the AppServer and/or the pull down is too large.
+                       -->
+    <GeneralizedCodeMaxCodes>0</GeneralizedCodeMaxCodes>
+    <!-- Setting this to true will disable the Generalized Code 
+         Edit from the maintenance screen pull down list
+         EditRole defined above will override this. -->
+    <DisableGCEdit>false</DisableGCEdit>
+    <!-- Enable or Disable DoubleByte to true or false -->
+    <DoubleByte>false</DoubleByte>
+    <!-- This controls the Form Feed character in reports output to Text printers
+         true:  Will leave the FF character at the start of each page
+         false: Will remove the FF at the start of of a page
+         The user can override with the Options -> Desktop -> Page Break setting
+    -->
+    <PageBreak>true</PageBreak>
+  </QView>
+  <!-- SMTP server settings for email notifications of scheduled reports -->
+  <!-- SMTP server host name -->
+  <Smtp.Host></Smtp.Host>
+  <!-- SMTP port name -->
+  <Smtp.Port>25</Smtp.Port>
+  <!-- SMTP from email address -->
+  <Smtp.From></Smtp.From>
+  <!-- SMTP username -->
+  <Smtp.Username></Smtp.Username>
+  <!-- SMTP password -->
+  <Smtp.Password></Smtp.Password>
+  <!-- SMTP use SSL -->
+  <Smtp.UseSSL>false</Smtp.UseSSL>
+  <!-- Report Datasource Providers -->
+  <ReportDataSourceProviders>
+    <Provider>
+      <Name>GenericProxy</Name>
+      <Assembly>QAD.Plugin.Reports.ReportFramework</Assembly>
+      <Class>QAD.Plugin.Reports.ReportFramework.GenericProxyDatasourceProvider</Class>
+    </Provider>
+    <Provider>
+      <Name>Browse</Name>
+      <Assembly>QAD.Browse</Assembly>
+      <Class>QAD.Browse.BrowseDatasourceProvider</Class>
+    </Provider>
+    <Provider>
+      <Name>FinancialAPI</Name>
+      <Assembly>BaseLibrary</Assembly>
+      <Class>BaseLibrary.Reports.BLFDatasourceProvider</Class>
+    </Provider>
+  </ReportDataSourceProviders>
+  <!-- Report Invalid Path Characters -->
+  <ReportServer>
+    <InvalidPathChars>
+      <Char>\</Char>
+      <Char>?</Char>
+      <Char>*</Char>
+      <Char>:</Char>
+      <Char>|</Char>
+      <Char>"</Char>
+      <Char>&gt;</Char>
+      <Char>&lt;</Char>
+      <Char>%</Char>
+      <Char>;</Char>
+    </InvalidPathChars>
+  </ReportServer>
+  <!-- Metric Parameters-->
+  <Metrics>
+    <!-- Max records for count metrics -->
+    <MaxBrowseRecordsForCount>100000</MaxBrowseRecordsForCount>
+    <!-- Max records returned to client when requested -->
+    <MaxBrowseRecordsReturned>50000</MaxBrowseRecordsReturned>
+    <!-- Show title and date on saved images -->
+    <ShowTextOnImage>true</ShowTextOnImage>
+    <!-- The font used on saved images -->
+    <ImageFont>Microsoft Sans Serif, 8.25pt</ImageFont>
+  </Metrics>
+  <!-- QAD Messaging Parameters-->
+  <Messaging>
+    <!-- The frequency at which the messaging poller queries the server for new/changed messages. 
+         In milliseconds (i.e. 300000 = 5 minutes) 
+      -->
+    <PollerFrequency>300000</PollerFrequency>
+    <!-- The minimum allowable setting for the poller frequency -->
+    <PollerFrequencyMinimum>180000</PollerFrequencyMinimum>
+    <!-- Whether the user is allowed to specify a different poller frequency.
+
+           If false, the user is allowed to set the poller frequency (via the 
+           Tools->Options in the UI).
+
+           If true, the user may not set the poller frequency and the frequency
+           is the value specified in the PollerFrequency in this file.
+      -->
+    <PollerFrequencyAdminOverride>false</PollerFrequencyAdminOverride>
+    <!-- The name in the database of the inbox queue.
+
+           IMPORTANT: Do not change this value. 
+      -->
+    <InboxQueueName>inbox</InboxQueueName>
+    <!-- Whether popup messages should display when alerts are received. -->
+    <DisplayAlerts>true</DisplayAlerts>
+    <!-- The frequency at which the deleted messages queue is automatically emptied (in days). -->
+    <EmptyDeletedQueueFrequency>5</EmptyDeletedQueueFrequency>
+    <!-- The setting that indicates whether the To, Cc, and Bcc textbox should auto complete 
+           text (addresses) entered in the Message Form. 
+      -->
+    <AutoCompleteRecipients>true</AutoCompleteRecipients>
+  </Messaging>
+  <!-- The text identifying the names of fields in tables used to indicate the 
+       Domain field. It is an ordered list. That is, the order implies the sequence
+       and way in which the domain field is determined. 
+
+       Each domain field is specified with the following identifiers 
+
+           database - the database from which the table originates
+           table - the table from which the domain field comes. '*' may be used to indicate all tables
+                   should be analyzed
+           fieldnameidentifier - the text that identifies the domain field. It may be 
+                                 part of the field name or the entire field name -->
+  <BrowseMaintenanceDomainFieldIdentifiers>
+    <!-- First, check table to see if it is a MFG/PRO table domain field -->
+    <DomainField database="qaddb" table="*" fieldnameidentifier="_domain"></DomainField>
+    <!-- Next, check special cases (e.g. QAD Financials used a highly normalized
+             schema where a table that is domain specific is linked to the Domains 
+             table via the Domain_ID and the actual field to filter on is the DomainCode.-->
+    <DomainField database="qaddb" table="Domains" fieldnameidentifier="DomainCode"></DomainField>
+  </BrowseMaintenanceDomainFieldIdentifiers>
+  <!-- The text identifying the names of fields in tables used to indicate the 
+         Entity field. It is an ordered list. That is, the order implies the sequence
+         and way in which the Entity field is determined. 
+
+         Each Entity field is specified with the following identifiers 
+
+             database - the database from which the table originates
+             table - the table from which the Entity field comes. '*' may be used to indicate all tables
+                     should be analyzed
+             fieldnameidentifier - the text that identifies the Entity field. It may be 
+                                   part of the field name or the entire field name -->
+  <BrowseMaintenanceEntityFieldIdentifiers>
+    <!-- By default, only the Company table in qaddb has the Entity (CompanyCode) field -->
+    <EntityField database="qaddb" table="Company" fieldnameidentifier="CompanyCode"></EntityField>
+  </BrowseMaintenanceEntityFieldIdentifiers>
+  <!--
+     These specify which images to use for the menu items.  The "name" attribute below
+     maps to the "Image" field in "Program Information Maintenance".  (The "name" attribute
+     is lower-cased). The value of the elements below (Maint.png for example) specifies
+     which image file in QAD.Common.images to use.  In addition a URL can be specified 
+     which will load the image from an external source.  For example:
+
+     <Image name="custom">http://coli48.qad.com:8888/qadsierraee/images/custom.png</Image>
+
+     The image should be 16 X 16 pixels
+    -->
+  <Menu>
+    <Image name="process">ProcessMap.png</Image>
+    <Image name="maint">Maint.png</Image>
+    <Image name="browse">Browse.png</Image>
+    <Image name="report">Report.png</Image>
+    <Image name="qrfreport">Report-new.png</Image>
+    <Image name="collection">Group.png</Image>
+  </Menu>
+  <Qra>
+    <!-- Define the worskpace format expected for Qra calls
+        The following variables may be used to customize the workspace name.
+
+        domain-id       Domain ID
+        entity-id       Entity ID
+    -->
+    <WorkspaceIdFormat>${domain-id}_${entity-id}</WorkspaceIdFormat>
+  </Qra>
+</Configuration>

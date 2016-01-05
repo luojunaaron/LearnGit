@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customizations>
+   <!-- Uncomment to allow .Net UI customizations for APIs 
+   <customization>
+      <name>.Net UI Customizations</name>
+      <class>com.qad.erp.api.custom.UICustomization</class>
+   </customization>
+   -->
+   <!-- Uncomment to allow ICT customizations for APIs
+   <customization>
+      <name>ICT Customizations</name>
+      <class>com.qad.erp.api.custom.ICTCustomization</class>
+   </customization>
+   -->
+</customizations>

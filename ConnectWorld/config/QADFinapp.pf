@@ -1,0 +1,6 @@
+-s 512 -mmax 4000 -inp 32000 -tok 20000 -TB 30 -TM 30 -Bt 3000 -rereadnolock -T /tmp
+         -cpinternal utf-8
+         -cpstream utf-8
+         -cpcoll ICU-UCA
+         -cpcase basic
+      

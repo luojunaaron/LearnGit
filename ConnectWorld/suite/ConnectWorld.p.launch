@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="ablunit.launchType">
+<stringAttribute key="ATTR_ABLUNIT_TESTCASE_NAME" value="D:\zal\workspace\ConnectWorld\suite\ConnectWorld.p"/>
+<booleanAttribute key="ATTR_ABLUNIT_TEST_CASE_SELECTION" value="true"/>
+<booleanAttribute key="ATTR_ABLUNIT_TEST_FOLDER_SELECTION" value="false"/>
+<stringAttribute key="ATTR_ABLUNIT_TEST_NAME" value=""/>
+<stringAttribute key="abl.client.PROVERSION" value="11.4"/>
+<booleanAttribute key="abl.client.USE_TTY" value="false"/>
+<stringAttribute key="abl.debug.ABL_PROGRAM" value="ABLUnitCore.r"/>
+<stringAttribute key="abl.debug.ATTR_ABL_PROJECT_NAME" value="ConnectWorld"/>
+<stringAttribute key="abl.debug.PROPATH" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;propath version=&quot;11.4&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;schema/propath.xsd&quot;&gt;&#13;&#10;&lt;propathentry env=&quot;all&quot; kind=&quot;lib&quot; path=&quot;D:\dlc114\tty\ablunit.pl&quot; platform=&quot;Windows&quot;/&gt;&#13;&#10;&lt;propathentry env=&quot;all&quot; kind=&quot;proj&quot; name=&quot;ConnectWorld&quot; path=&quot;ConnectWorld&quot; platform=&quot;All&quot;/&gt;&#13;&#10;&lt;propathentry env=&quot;all&quot; kind=&quot;dir&quot; path=&quot;@{WORK}&quot; platform=&quot;All&quot;/&gt;&#13;&#10;&lt;/propath&gt;&#13;&#10;"/>
+<booleanAttribute key="abl.debug.PROPATH_USE_DEFAULT" value="false"/>
+<stringAttribute key="abl.startup.WORKING_DIRECTORY" value="D:\zal\workspace\ConnectWorld\suite"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/ConnectWorld/ConnectWorld.p"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="ATTR_ABLUNIT_EVENT_FILE" value="D:\zal\workspace\.metadata\.plugins\com.progress.openedge.pdt.ablunit\input1451972949599"/>
+<mapEntry key="ATTR_ABLUNIT_TESTCASE_NAME" value="D:/zal/workspace/ConnectWorld/ConnectWorld.p"/>
+</mapAttribute>
+</launchConfiguration>
