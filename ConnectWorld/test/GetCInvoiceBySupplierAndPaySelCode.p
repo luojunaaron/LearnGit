@@ -172,7 +172,7 @@ PROCEDURE TestTotalPaymentAmountBCFor10S1002:
     for each tCInvoiceList :
         cnt = tdPaymentAmountBC + cnt.      
     end.
-    Assert:Equals(95.48,cnt).  
+    Assert:Equals(23.75,cnt).  
 END PROCEDURE.
 
 @Test.
@@ -183,7 +183,7 @@ PROCEDURE TestTotalPaymentAmountBCFor10S1003:
     for each tCInvoiceList :
         cnt = tdPaymentAmountBC + cnt.      
     end.
-    Assert:Equals(95.48,cnt).  
+    Assert:Equals(28.73,cnt).  
 END PROCEDURE.
 
 
@@ -196,5 +196,5 @@ PROCEDURE TestTotalPaymentAmountBCFor10S1004:
     for each tCInvoiceList :
         cnt = tdPaymentAmountBC + cnt.      
     end.
-    Assert:Equals(95.48,cnt).  
+    Assert:Equals(23,cnt).  
 END PROCEDURE.

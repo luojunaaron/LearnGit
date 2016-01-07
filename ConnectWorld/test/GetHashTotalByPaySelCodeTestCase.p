@@ -56,6 +56,25 @@ END PROCEDURE.
 @Test.
 /*------------------------------------------------------------------------------
         Purpose: Test the paysel code with same currency and supplier                                                                  
+                 Also test the performance for loading 700 paysellines, 
+                 it should be around 6 seconds.
+        Notes:                                                                        
+------------------------------------------------------------------------------*/
+PROCEDURE TestPerformanceFor700Invs:
+       DEFINE VARIABLE hashString AS CHAR.
+       define variable st1 as integer.
+       st1 = mtime.
+       define variable exeTime as integer.
+       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel701", OUTPUT hashString). 
+       exeTime = (mtime - st1) / 1000.
+       Assert:Equals("7010_SUPBank1_1_701",hashString).
+       Assert:isTrue(exeTime < 8).
+END PROCEDURE. 
+
+
+@Test.
+/*------------------------------------------------------------------------------
+        Purpose: Test the paysel code with same currency and supplier                                                                  
                  Also test the performance for loading 2100 paysellines, 
                  it should be around 13 seconds.
         Notes:                                                                        
@@ -65,14 +84,15 @@ PROCEDURE TestPerformanceFor2100Invs:
        define variable st1 as integer.
        st1 = mtime.
        define variable exeTime as integer.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel701", OUTPUT hashString). 
+       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2100", OUTPUT hashString). 
        exeTime = (mtime - st1) / 1000.
        Assert:Equals("21000_SUPBank1_1_2100",hashString).
-       Assert:isTrue(exeTime < 15).
+       Assert:isTrue(exeTime < 13).
 END PROCEDURE. 
 
 @Test.
-PROCEDURE TestGetHashStringSameCurrSupplier1:
+/*Same Currency and Supplier*/
+PROCEDURE TestGetHashStringSameCurrSupplier:
        DEFINE VARIABLE hashString AS CHAR.
        RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel701", OUTPUT hashString). 
        Assert:Equals("7010_SUPBank1_1_701",hashString).
@@ -93,7 +113,12 @@ PROCEDURE TestGetHashStringDiffCurrDiffSupplier:
        Assert:Equals("95.48_SUPBank1_4_8",hashString).
 END PROCEDURE. 
 
-
+@Test.
+PROCEDURE TestGetHashStringDiffCurrDiffSupplierDiffBankNumber:
+       DEFINE VARIABLE hashString AS CHAR.
+       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "zalps10", OUTPUT hashString). 
+       Assert:Equals("3758.07_9599,CA454509,L343523909,L445345789_4_4",hashString).
+END PROCEDURE. 
 
 @Test.
 PROCEDURE TestGetHashStringSameCurrDiffInvType:
@@ -103,59 +128,21 @@ PROCEDURE TestGetHashStringSameCurrDiffInvType:
 END PROCEDURE. 
 
 
-
 @Test.
-PROCEDURE TestGetHashStringSameCurrDiffInvType7:
+PROCEDURE TestGetHashStringDiffCurrDiffInvType:
        DEFINE VARIABLE hashString AS CHAR.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2801", OUTPUT hashString). 
-       Assert:Equals("672_AU556509_1_91",hashString).
+       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2304", OUTPUT hashString). 
+       Assert:Equals("120_TestBank01S_1_12",hashString).
 END PROCEDURE. 
 
 
 @Test.
-PROCEDURE TestGetHashStringSameCurrDiffInvType6:
+PROCEDURE TestGetHashStringDiffCurr:
        DEFINE VARIABLE hashString AS CHAR.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2801", OUTPUT hashString). 
-       Assert:Equals("672_AU556509_1_91",hashString).
+       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel24-01", OUTPUT hashString). 
+       Assert:Equals("29_AU556509_1_3",hashString).
 END PROCEDURE. 
 
 
-@Test.
-PROCEDURE TestGetHashStringSameCurrDiffInvType5:
-       DEFINE VARIABLE hashString AS CHAR.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2801", OUTPUT hashString). 
-       Assert:Equals("672_AU556509_1_91",hashString).
-END PROCEDURE. 
 
-
-@Test.
-PROCEDURE TestGetHashStringSameCurrDiffInvType4:
-       DEFINE VARIABLE hashString AS CHAR.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2801", OUTPUT hashString). 
-       Assert:Equals("672_AU556509_1_91",hashString).
-END PROCEDURE. 
-
-
-@Test.
-PROCEDURE TestGetHashStringSameCurrDiffInvType3:
-       DEFINE VARIABLE hashString AS CHAR.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2801", OUTPUT hashString). 
-       Assert:Equals("672_AU556509_1_91",hashString).
-END PROCEDURE. 
-
-
-@Test.
-PROCEDURE TestGetHashStringSameCurrDiffInvType2:
-       DEFINE VARIABLE hashString AS CHAR.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2801", OUTPUT hashString). 
-       Assert:Equals("672_AU556509_1_91",hashString).
-END PROCEDURE. 
-
-
-@Test.
-PROCEDURE TestGetHashStringSameCurrDiffInvType1:
-       DEFINE VARIABLE hashString AS CHAR.
-       RUN facade/GetPaySelHashByCodeFacade.p(INPUT "sel2801", OUTPUT hashString). 
-       Assert:Equals("672_AU556509_1_91",hashString).
-END PROCEDURE. 
 

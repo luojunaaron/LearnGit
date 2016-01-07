@@ -105,28 +105,291 @@ PROCEDURE TestGetPaySelHeaderSummaryLocalCurr:
     Assert:Equals(100, tPaySelHeaderSummary.tdPaySelTotalAmtBC).
 END PROCEDURE.
 
-@Test.   
-PROCEDURE TestGetPaySelSupplierSubTotal:
-    empty temp-table tPaySelCreditorSubTotal.
-    run facade/GetPaySelSupplierSubTotalFacade.p(input "d6l1225a", 
-                                    input "USD",
-                                    input "10S1005",
-                                    output table tPaySelCreditorSubTotal).
-    
-    find first tPaySelCreditorSubTotal no-error.
-    Assert:Equals("d6l1225a", tPaySelCreditorSubTotal.tcPaySelCode).
-    Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
-    Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
-    Assert:Equals("10s1005", tPaySelCreditorSubTotal.tcCreditorCode).
-    Assert:Equals(19, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
-    Assert:Equals(19, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
-    Assert:Equals("10-s1005", tPaySelCreditorSubTotal.tcBusinessRelationCode).
-    Assert:Equals("Absolute Electronics Company", tPaySelCreditorSubTotal.tcBusinessRelationName1).
-    Assert:Equals("1100FTD", tPaySelCreditorSubTotal.tcGLCode).
-END PROCEDURE.
+
+ 
  
 @Test.   
-PROCEDURE TestGetPaySelSupplierSubTotalAll:
+PROCEDURE TestGetPaySelSupplierSubTotalAllFor10S1001:
+    empty temp-table tPaySelCreditorSubTotal.
+    run facade/GetPaySelSupplierSubTotalFacade.p(input "sel4-s4", 
+                                    input "",
+                                    input "",
+                                    output table tPaySelCreditorSubTotal).
+                                       
+    for each tPaySelCreditorSubTotal:
+        if tPaySelCreditorSubTotal.tcCreditorCode = "10s1001"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1001", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(20, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(20, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1001", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Taylor & Fulton Fruit Co.", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1002"
+        then do:
+            if tPaySelCreditorSubTotal.tcCurrencyCode = "USD"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+            else if tPaySelCreditorSubTotal.tcCurrencyCode = "EUR"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("EUR", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(13.75, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(11, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1003"
+        then do:
+            if tPaySelCreditorSubTotal.tcCurrencyCode = "USD"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1003", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1003", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Heron Surgical Supply", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+            else if tPaySelCreditorSubTotal.tcCurrencyCode = "GBP"
+            
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("GBP", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1003", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(18.73, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(12, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1003", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Heron Surgical Supply", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1004"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1004", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(23, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(23, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1004", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Sungro Chemicals", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+    end.
+       
+END PROCEDURE.
+
+
+ 
+@Test.   
+PROCEDURE TestGetPaySelSupplierSubTotalAllFor10S1002:
+    empty temp-table tPaySelCreditorSubTotal.
+    run facade/GetPaySelSupplierSubTotalFacade.p(input "sel4-s4", 
+                                    input "",
+                                    input "",
+                                    output table tPaySelCreditorSubTotal).
+                                       
+    for each tPaySelCreditorSubTotal:
+        if tPaySelCreditorSubTotal.tcCreditorCode = "10s1001"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1001", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(20, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(20, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1001", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Taylor & Fulton Fruit Co.", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1002"
+        then do:
+            if tPaySelCreditorSubTotal.tcCurrencyCode = "USD"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+            else if tPaySelCreditorSubTotal.tcCurrencyCode = "EUR"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("EUR", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(13.75, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(11, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1003"
+        then do:
+            if tPaySelCreditorSubTotal.tcCurrencyCode = "USD"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1003", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1003", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Heron Surgical Supply", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+            else if tPaySelCreditorSubTotal.tcCurrencyCode = "GBP"
+            
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("GBP", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1003", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(18.73, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(12, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1003", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Heron Surgical Supply", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1004"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1004", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(23, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(23, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1004", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Sungro Chemicals", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+    end.
+       
+END PROCEDURE.
+
+ 
+@Test.   
+PROCEDURE TestGetPaySelSupplierSubTotalAllFor10S1003:
+    empty temp-table tPaySelCreditorSubTotal.
+    run facade/GetPaySelSupplierSubTotalFacade.p(input "sel4-s4", 
+                                    input "",
+                                    input "",
+                                    output table tPaySelCreditorSubTotal).
+                                       
+    for each tPaySelCreditorSubTotal:
+        if tPaySelCreditorSubTotal.tcCreditorCode = "10s1001"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1001", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(20, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(20, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1001", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Taylor & Fulton Fruit Co.", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1002"
+        then do:
+            if tPaySelCreditorSubTotal.tcCurrencyCode = "USD"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+            else if tPaySelCreditorSubTotal.tcCurrencyCode = "EUR"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("EUR", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(13.75, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(11, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1003"
+        then do:
+            if tPaySelCreditorSubTotal.tcCurrencyCode = "USD"
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1003", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1003", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Heron Surgical Supply", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+            else if tPaySelCreditorSubTotal.tcCurrencyCode = "GBP"
+            
+            then do:
+                Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+                Assert:Equals("GBP", tPaySelCreditorSubTotal.tcCurrencyCode).
+                Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+                Assert:Equals("10s1003", tPaySelCreditorSubTotal.tcCreditorCode).
+                Assert:Equals(18.73, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+                Assert:Equals(12, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+                Assert:Equals("10-s1003", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+                Assert:Equals("Heron Surgical Supply", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+                Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+            end.
+        end.
+        else if tPaySelCreditorSubTotal.tcCreditorCode = "10s1004"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1004", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(23, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(23, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1004", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Sungro Chemicals", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+    end.
+       
+END PROCEDURE.
+
+ 
+@Test.   
+PROCEDURE TestGetPaySelSupplierSubTotalAllFor10S1004:
     empty temp-table tPaySelCreditorSubTotal.
     run facade/GetPaySelSupplierSubTotalFacade.p(input "sel4-s4", 
                                     input "",
@@ -237,7 +500,42 @@ PROCEDURE TestGetPaySelSupplierSubTotalWithSupplier:
 END PROCEDURE.
 
 @Test.   
-PROCEDURE TestGetPaySelSupplierSubTotalWithSupplierExch:
+PROCEDURE TestGetPaySelSupplierSubTotalWithSupplierExchEUR:
+    empty temp-table tPaySelCreditorSubTotal.
+    run facade/GetPaySelSupplierSubTotalFacade.p(input "sel4-s4", 
+                                    input "",
+                                    input "10s1002",
+                                    output table tPaySelCreditorSubTotal).
+    for each tPaySelCreditorSubTotal:
+        if tPaySelCreditorSubTotal.tcCurrencyCode = "USD"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(10, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+        else if tPaySelCreditorSubTotal.tcCurrencyCode = "EUR"
+        then do:
+            Assert:Equals("sel4-s4", tPaySelCreditorSubTotal.tcPaySelCode).
+            Assert:Equals("EUR", tPaySelCreditorSubTotal.tcCurrencyCode).
+            Assert:Equals("USD", tPaySelCreditorSubTotal.tcBankCurrencyCode).
+            Assert:Equals("10s1002", tPaySelCreditorSubTotal.tcCreditorCode).
+            Assert:Equals(13.75, tPaySelCreditorSubTotal.tdPaySelTotalAmtBC).
+            Assert:Equals(11, tPaySelCreditorSubTotal.tdPaySelTotalAmtTC).
+            Assert:Equals("10-s1002", tPaySelCreditorSubTotal.tcBusinessRelationCode).
+            Assert:Equals("Bridgeville Industries", tPaySelCreditorSubTotal.tcBusinessRelationName1).
+            Assert:Equals("bank01", tPaySelCreditorSubTotal.tcGLCode).
+        end.
+     end.                            
+END PROCEDURE.
+
+@Test.   
+PROCEDURE TestGetPaySelSupplierSubTotalWithSupplierExchUSD:
     empty temp-table tPaySelCreditorSubTotal.
     run facade/GetPaySelSupplierSubTotalFacade.p(input "sel4-s4", 
                                     input "",
