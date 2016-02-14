@@ -1,0 +1,29 @@
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script>
+   $(function() {
+     $("#dialog").dialog({
+    autoOpen: false,
+    modal: true,
+    height: 800,
+    width:1266,
+    open: function(ev, ui){
+             $('#myIframe').attr('src','showinv.html');
+          }
+});
+
+
+$('#dialogBtn').click(function(){
+    $('#dialog').dialog('open');
+});
+   });
+ </script>
+
+
+
+
+<div id="dialog">
+    <iframe id="myIframe" src="" width = "1200" height="777"></iframe>
+</div>
+<button id="dialogBtn">Open Dialog</button>
