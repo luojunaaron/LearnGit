@@ -31,15 +31,14 @@
 
 		<script type="text/javascript">
 			$('document').ready(function () {
-				$.getJSON("http://localhost:8980/PaymentSelectionApp/rest/PaymentSelectionAppService/PaymentSelection?payselCode=" + <%=request.getParameter("payselcode")%> +"&supplierCode=" +<%=request.getParameter("suppliercode")%>  ,
-				function (data) {
-					$.each(data.response.tCInvoiceList.tCInvoiceList, function (i, item) {
 
+  $.getJSON("http://localhost:8980/PaymentSelectionApp/rest/PaymentSelectionAppService/PaymentSelection?payselCode=" + <%=request.getParameter("payselcode")%> + "&supplierCode=" + '<%=request.getParameter("suppliercode")%>',
+				function (data) {
+					$.each(data.response.tCInvoiceList.tCInvoiceList, 
+					function (i, item) {
 						$("#tab11").append("<tr><td>" + item.tcInvoiceCurrencyCode + "</td>  <td>" + item.tcDescription + " </td> <td>" +
 						item.ttPostingDate + " </td><td>"   + item.ttDueDate + " </td> <td>" + item.tcCInvoiceCrDrAbbr + " </td> <td>" + item.tdPaymentAmountTC +
 						" </td></tr>");
-
-
 					});
 				});
 			});

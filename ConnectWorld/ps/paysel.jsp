@@ -52,7 +52,8 @@
 				});
 				});
 				*/
-				$('#myIframe').attr('src','showinv.jsp?payselcode= '+ $("#payselcode")[0].value) + '&suppliercode=' + sc;
+				
+				$('#myIframe').attr('src','showinv.jsp?payselcode= ' + $("#payselcode")[0].value + '&suppliercode=' + sc) ;
 				$('#dialog').dialog('open');
 
 			}
@@ -70,10 +71,10 @@
 		</select>
 		<br>
 		Supplier Payment Selection Code:
-		<input id="payselcode" value="0111">
+		<input id="payselcode" value="113">
 		<button id="btnsearch">Search</button>
-
-
+        <button id="approveBtn">Approve</button>
+        
 		<br>
 		<script type="text/javascript">
 			$('#btnsearch').click(function () {
@@ -90,9 +91,34 @@
 					});
 				});
 			});
+		</script>
+        
+        
+        <script>	
+		$('#approveBtn').click(function (data) {
+			alert("start");
+		 $.ajax({
+             type: "POST",
+             url: "http://localhost:8980/PaymentSelectionApp/rest/PaymentSelectionAppService/PaymentSelection?toStatus=APPROVED&payselCode=" + $("#payselcode")[0].value,
+             data: "",
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function (data, status, jqXHR) {
 
+                 alert($("#payselcode")[0].value + " has been approved successfully");// write success in " "
+             },
+
+             error: function (jqXHR, status) {
+                 // error handler
+                 console.log(jqXHR);
+                 alert('fail' + status.code);
+             }
+          });
+		});
 		</script>
 		<div id = "list"  z-index="1">
+        <br><br>
 			<table id="tab1" bgcolor="#F0F0F0">
 				<tr>
 					<td width="160" height="2" nowrap="nowrap" ><strong>Supplier Code</strong></td>
