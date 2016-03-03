@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Action Center</title>
+<meta charset="utf-8">
+<link href="http://www.kendoui.io/examples/content/shared/styles/examples-offline.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.common.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.rtl.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.default.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.dataviz.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.dataviz.default.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+<script src="http://kendo.cdn.telerik.com/2016.1.112/js/kendo.all.min.js"></script>
+<script src="http://demos.telerik.com/kendo-ui/content/shared/js/console.js"></script>
+<script src="json2.js"></script>
+</head>
+<body background="bg1.bmp">
+<br>
+<br>
+<br>
+<div class="pane-content">
+  <form id='form1'>
+    &nbsp;KPI Code:
+    <input id="kpi" name="kpi" type="text" />
+    <input type='button' value="Search" id="submit_btn"/>
+    &nbsp;&nbsp;&nbsp;
+    Year/Period:
+    <input id="yearstart" type="number" value="2015" min="0" max="3000" step="1" style="width: 60px" />
+    <input id="periodstart" type="number" value="01" min="0" max="12" step="1" style="width: 40px" />
+    <input id="yearend" type="number" value="2015" min="0" max="3000" step="1" style="width: 60px" />
+    <input id="periodend" type="number" value="12" min="0" max="12" step="1" style="width: 40px" />
+    <input id="drilldown" type="checkbox" >
+    By Period
+    </input>
+    <input type='button' value="Get KPI Value" id="kpisubmit_btn" />
+    
+     <input type='button' value="Only Chart" id="oc" />
+    <div id="progress" style="float:right;width: 100px; margin-right:20px "></div>
+  </form>
+</div>
+<br>
+<div id="grid"></div>
+<div id="grid1"></div>
+<div id="grid2"></div>
+<div id="example">
+  <div >
+    <table border="0"><tr>
+    <td width="400px"><div id="chart" ></div></td>  
+    <td width="150px"></td>
+    <td width="400px"><div id="chart1" ></div></td> 
+     <td width="150px"></td>
+    <td width="400px"><div id="chart2" ></div></td> 
+    </tr></table>
+  </div>
+  
+  <script type="text/javascript">
+			$('#kpisubmit_btn').click(function () {
+	  	
+            $("#chart").kendoChart({
+                title: {
+                    text: ""
+                },
+                legend: {
+                    visible: false
+                },
+                seriesDefaults: {
+                    type: "pie"
+                },
+                series: [{
+                    name: "By Slice",
+                    data: [56000, 63000, 74000, 91000, 117000, 138000]
+                }],
+                valueAxis: {
+                    max: 140000,
+                    line: {
+                        visible: false
+                    },
+                    minorGridLines: {
+                        visible: true
+                    },
+                    labels: {
+                        rotation: "auto"
+                    }
+                },
+                categoryAxis: {
+                    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#= series.name #: #= value #"
+                }
+            });
+			
+			
+					  	
+            $("#chart1").kendoChart({
+                title: {
+                    text: ""
+                },
+                legend: {
+                    visible: false
+                },
+                seriesDefaults: {
+                    type: "pie"
+                },
+                series: [{
+                    name: "By Slice",
+                    data: [56000, 63000, 74000, 91000, 117000, 138000]
+                }],
+                valueAxis: {
+                    max: 140000,
+                    line: {
+                        visible: false
+                    },
+                    minorGridLines: {
+                        visible: true
+                    },
+                    labels: {
+                        rotation: "auto"
+                    }
+                },
+                categoryAxis: {
+                    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#= series.name #: #= value #"
+                }
+            });
+			
+			
+			
+					  	
+            $("#chart2").kendoChart({
+                title: {
+                    text: ""
+                },
+                legend: {
+                    visible: false
+                },
+                seriesDefaults: {
+                    type: "pie"
+                },
+                series: [{
+                    name: "By Slice",
+                    data: [56000, 63000, 74000, 91000, 117000, 138000]
+                }],
+                valueAxis: {
+                    max: 140000,
+                    line: {
+                        visible: false
+                    },
+                    minorGridLines: {
+                        visible: true
+                    },
+                    labels: {
+                        rotation: "auto"
+                    }
+                },
+                categoryAxis: {
+                    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#= series.name #: #= value #"
+                }
+            });
+				
+			});
+			
+			
+			
+			
+  </script> 
+
+ 
+
+ <script type="text/javascript">
+  	$('#oc').click(function () {
+    $(function () {
+	
+		document.getElementById("grid1").style.display="none";
+		document.getElementById("grid2").style.display="none";
+	   });
+    });
+</script> 
+</div>
+</body>
+</html>

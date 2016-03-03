@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Action Center</title>
+<meta charset="utf-8">
+<link href="http://www.kendoui.io/examples/content/shared/styles/examples-offline.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.common.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.rtl.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.default.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.dataviz.min.css" rel="stylesheet">
+<link href="http://kendo.cdn.telerik.com/2016.1.112/styles/kendo.dataviz.default.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+<script src="http://kendo.cdn.telerik.com/2016.1.112/js/kendo.all.min.js"></script>
+<script src="http://demos.telerik.com/kendo-ui/content/shared/js/console.js"></script>
+<script src="json2.js"></script>
+</head>
+
+
+<body background="bg1.jpg">
+<br>
+<br>
+<br>
+
+<div class="pane-content" style="height:14px">
+  <form id='form1'>
+    &nbsp;KPI Code:
+    <input id="kpi" name="kpi" type="text" />
+    <input type='button' value="Search" id="submit_btn"/>
+    &nbsp;&nbsp;&nbsp;
+    Year/Period:
+    <input id="yearfrom" type="number" value="2015" min="0" max="3000" step="1" style="width: 60px" />
+    <input id="periodfrom" type="number" value="01" min="0" max="12" step="1" style="width: 40px" />
+    <input id="yearto" type="number" value="2015" min="0" max="3000" step="1" style="width: 60px" />
+    <input id="periodto" type="number" value="12" min="0" max="12" step="1" style="width: 40px" />
+    <input id="drilldown" type="checkbox" >
+    By Period
+    </input>
+    <input type='button' value="KPI Value" id="kpisubmit_btn" /> 
+   
+  </form>
+</div>
+
+
+<div id = "bp" style="height:14px"><table border="0"><tr><td width="1800px"></td><td align="right"><a href="#" id = "a1" class="clickme"><img src="min.jpg" width="20px" height="14px"></a>
+<a href="#" id = "a3" class="clickme"><img src="normal.jpg" width="20px" height="14px"></a>
+  <a href="#" id= "a2" class="clickme"><img src="max.jpg" width="20px" height="14px"></a></td></tr></table></div>
+<br>
+<div id="grid"></div>
+
+<div id="grid2" ></div>
+<div id="grid1" ></div>
+
+<div id="example">
+  <div >
+    <table border="0"><tr>
+    <td width="600px"><div id="chart" ></div></td>  
+    <td width="150px"></td>
+    <td width="600px"><div id="chart1" ></div></td> 
+     <td width="50px"></td>
+   
+    </tr></table>
+   
+    <table border="0">
+    <tr>
+    <td width="1800px"><div id="chart2" ></div></td> 
+    </tr></table>
+  </div>
+  
+  </script>
+  <script type="text/javascript">
+			$('#kpisubmit_btn').click(function () {
+				
+				
+			var grid = $("#grid").data("kendoGrid");
+			var selectedSC = "";               
+			var selectedSV = "";               
+			var selectedST = "";               
+			
+			grid.select().each(function() {
+				var dataItem = grid.dataItem($(this));
+				selectedSV = selectedSV + dataItem.tcValue + ",";
+				selectedSC = selectedSC + dataItem.tcKPISliceCode + ",";
+				selectedST = selectedST + dataItem.tcKPISliceType + ",";
+				
+			});	
+				
+			$.ajaxSettings.async = false;
+				$.getJSON("http://localhost:8980/FinKPI/rest/FinKPIService/FinKPI?KPICode=" + $("#kpi")[0].value + "&YearFrom=" + $("#yearfrom")[0].value + "&YearTo=" + $("#yearto")[0].value 
+				      + "&PeriodFrom=" + $("#periodfrom")[0].value + "&PeriodTo=" + $("#periodto")[0].value + "&SliceCodes=" + selectedSC + "&SliceTypes=" + selectedST + "&SliceValues=" + selectedSV,
+	  				
+		    function (data) {
+					
+				    
+		    var strData = JSON.stringify(data,"","");	
+			var startPos = strData.indexOf("[");
+			var endPos = strData.indexOf("]");
+		    var str2 = JSON.parse(strData.substring(startPos,endPos + 1));	 
+			
+			strData = JSON.stringify(data,"","");
+			startPos = strData.lastIndexOf("[");
+		    endPos = strData.lastIndexOf("]");
+		    var str1 = JSON.parse(strData.substring(startPos,endPos + 1));	 
+		
+			 $("#grid1").kendoGrid({
+            dataSource: {
+                data: str1,
+				 pageSize: 20,
+                 schema: {
+                    model: {
+                        fields: {
+                            tcKPICode: { type: "string" },
+							tcSliceCode: { type: "string" },
+							tcSliceValue: { type: "string" },
+							tdKPI: { type: "number" },
+							tcSliceType: { type: "string" },
+							tcKPIElementCodeValues: { type: "string" },
+						    tiYearFrom: { type: "string" },
+						    tiYearTo: { type: "string" },
+						    tiPeriodFrom: { type: "string" },
+						    tiPeriodTo: { type: "string" }
+                        }
+                    }
+                }},
+		        height: 250,
+                sortable: true,
+				navigatable: true,
+				groupable: true,
+                selectable: "multiple",
+				pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+                },
+            columns: [
+			{    field: "tcKPICode",
+                title: "KPI Code",width: 100
+            }, 
+			{
+                field: "tcSliceCode",
+                title: "Slice Code",width: 140
+            },
+			{
+                field: "tcSliceValue",
+                title: "Slice Value",width: 120
+            },
+		    {
+                field: "tcSliceType",
+                title: "Slice Type" ,width: 120
+            },
+			{
+                field: "tdKPI",
+                title: "KPI" ,width: 80
+            },
+			{
+                field: "tcKPIElementCodeValues",
+                title: "Element Code Values"
+            },		
+			
+			 {
+                field: "tiYearFrom",
+                title: "Year From",
+				width: 80
+            },
+			{
+                field: "tiYearTo",
+                title: "Year To",
+				width: 80
+            },
+			{
+                field: "tiPeriodFrom",
+                title: "Period From",
+				width: 80
+            },
+			{
+                field: "tiPeriodTo",
+                title: "Period To",
+				width: 80
+            }
+			
+			]
+           });	
+		   
+		   
+		
+            $("#grid2").kendoGrid({
+            dataSource: {
+                data: str2,
+				 pageSize: 20,
+                 schema: {
+                    model: {
+                        fields: {
+                            tcKPICode: { type: "string" },
+							tdKPI: { type: "number" },
+						    tiYearFrom: { type: "string" },
+						    tiYearTo: { type: "string" },
+						    tiPeriodFrom: { type: "string" },
+						    tiPeriodTo: { type: "string" },
+                            tcKPIElementCodeValues: { type: "string" }
+                        }
+                    }
+                }},
+		        height: 150,
+                sortable: true,
+				navigatable: true,
+                selectable: "multiple",
+				pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+                },
+            columns: [
+			{    field: "tcKPICode",
+                title: "KPI Code",width: 80
+            }, {
+                field: "tdKPI",
+                title: "KPI" 
+            }, {
+                field: "tiYearFrom",
+                title: "Year From",
+				width: 80
+            },
+			{
+                field: "tiYearTo",
+                title: "Year To",
+				width: 80
+            },
+			{
+                field: "tiPeriodFrom",
+                title: "Period From",
+				width: 80
+            },
+			{
+                field: "tiPeriodTo",
+                title: "Period To",
+				width: 80
+            },
+			
+			{
+                field: "tcKPIElementCodeValues",
+                title: "Element Code Values"
+            }
+			
+			]
+        });	
+				});
+				
+				
+				
+				
+			/*get data*/
+			
+			var chartData = new Array();
+			var chartText = new Array();               
+			var chart1Data = new Array();               
+			var chart2Data = new Array();   
+			  
+			var grid9 = $("#grid2").data("kendoGrid");          
+			var i = 0;
+		    grid9.select(grid9.tbody.find(">tr"));
+			
+			grid9.select().each(function() {
+
+				var dataItem = grid9.dataItem($(this));
+				chartData[i] = dataItem.tdKPI;
+				chartText[i] = (dataItem.tiYearFrom) + "/" +  (dataItem.tiPeriodFrom) + "--" + (dataItem.tiYearTo) + "/" + (dataItem.tiPeriodTo);
+				i = i + 1;
+			});	
+			
+			grid9.clearSelection();
+				  	
+					
+            $("#chart").kendoChart({
+                title: {
+                    text: ""
+                },
+                legend: {
+                    visible: false
+                },
+                seriesDefaults: {
+                    type: "bar",
+                    stack: true
+                },
+                series: [{
+                    name: "By Slice",
+                    data: chartData
+                }],
+                valueAxis: {
+                    max: 234000000,
+                    line: {
+                        visible: false
+                    },
+                    minorGridLines: {
+                        visible: true
+                    },
+                    labels: {
+                        rotation: "auto"
+                    }
+                },
+                categoryAxis: {
+                    categories: chartText,
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#= series.name #: #= value #"
+                }
+            });
+			
+			
+					  	
+            $("#chart1").kendoChart({
+                title: {
+                    text: ""
+                },
+                legend: {
+                    visible: true
+                },
+                seriesDefaults: {
+                    type: "pie"
+                },
+                series: [{
+                    name: "By",
+                     data: [{
+                        category: "10USACO",
+                        value: 59,
+                        color: "#9de219"
+                    },{
+                        category: "11CANCO",
+                        value: 41,
+                        color: "#90cc38"
+					}],
+					}],
+                valueAxis: {
+                    max: 914000000,
+                    line: {
+                        visible: false
+                    },
+                    minorGridLines: {
+                        visible: true
+                    },
+                    labels: {
+                        rotation: "auto"
+                    }
+                },
+				seriesClick: onSeriesClick,
+                categoryAxis: {
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#= series.name #: #= value #"
+				}
+            });
+			
+			
+			
+					  	
+           
+				$.ajaxSettings.async = true;
+			});
+			
+		
+		
+		 function onSeriesClick(e) {
+			document.getElementById("bp").style.display="";
+			var chartData = new Array();
+			var chartText = new Array();               
+			var chart1Data = new Array();               
+			var chart2Data = new Array();   
+			  
+			var grid9 = $("#grid1").data("kendoGrid");          
+			var i = 0;
+		    grid9.select(grid9.tbody.find(">tr"));
+			
+			grid9.select().each(function() {
+
+				var dataItem = grid9.dataItem($(this));
+                if(dataItem.tcSliceValue == e.category)
+				{
+					chartData[i] = dataItem.tdKPI;
+					chartText[i] = (dataItem.tiYearFrom) + "/" +  (dataItem.tiPeriodFrom) + "--" + (dataItem.tiYearTo) + "/" + (dataItem.tiPeriodTo);
+					i = i + 1;
+				}
+			});	
+			
+			grid9.clearSelection();
+			var txt1 = "Drill Down By:" + e.category;
+			 
+             $("#chart2").kendoChart({
+                title: {
+                    text: txt1
+                },
+                legend: {
+                    visible: false
+                },
+                seriesDefaults: {
+                    type: "column"
+                },
+                series: [{
+                    name: "By Company",
+                    data: chartData
+                }],
+                valueAxis: {
+                    max: 66000000,
+                    line: {
+                        visible: false
+                    },
+                    minorGridLines: {
+                        visible: true
+                    },
+                    labels: {
+                        rotation: "auto"
+                    }
+                },
+                categoryAxis: {
+                    categories: chartText,
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#= series.name #: #= value #"
+                }
+            });		
+             
+        }
+		
+	
+		
+  </script> 
+  
+    <script type="text/javascript">
+  	$('#bb1').click(function () {
+		var grid = $("#grid2").data("kendoGrid");
+        var text = "";               
+        grid.select(grid.tbody.find(">tr"));
+        grid.select().each(function() {
+            var dataItem = grid.dataItem($(this));
+            text = text + dataItem.tdKPI + ",";
+        });
+
+		   grid.clearSelection();
+	   });
+		</script>
+
+
+  <script type="text/javascript">
+  	$('#submit_btn').click(function () {
+    $(function () {
+			$.ajaxSettings.async = false;	
+		var str;
+		$.getJSON("http://localhost:8980/FinKPI/rest/FinKPIService/FinKPISlice?KPICode=" + $("#kpi")[0].value ,
+		function (data) {	
+			
+						    
+		    str = JSON.stringify(data,"","");	
+			var startPos = str.indexOf("[");
+			var endPos = str.indexOf("]");
+			
+		    var str1 = JSON.parse(str.substring(startPos,endPos + 1));	 
+	
+            var grid = $("#grid").kendoGrid({
+            dataSource: {
+                data: str1,
+				pageSize: 20,
+				group: { field: "tcKPISliceCode"},
+                schema: {
+                    model: {
+                        fields: {
+                            tcKPICode: { type: "string" },
+                            tcKPISliceCode: { type: "string" },
+                            tcKPISliceType: { type: "string" },
+							tcValue: { type: "string" }
+                        }
+                    }
+                }},
+		        height: 300,
+                groupable: true,
+                sortable: true,
+				navigatable: true,
+				filterable: true,
+                selectable: "multiple",
+				pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+							
+            columns: [
+			{
+                field: "tcKPICode",
+                title: "KPI Code"
+            }, {
+                field: "tcKPISliceCode",
+                title: "Slice Code"
+            }, {
+                field: "tcKPISliceType",
+                title: "Slice Type"
+            },
+			{
+                field: "tcValue",
+                title: "Slice Value"
+            }]
+			
+        });   
+
+
+
+		});
+	  
+		
+	   });
+
+		
+    });
+	
+	  document.getElementById("bp").style.display="none";
+	
+</script> 
+<script>
+
+
+// Make sure all the elements with a class of "clickme" are visible and bound
+// with a click event to toggle the "box" state
+$('#a1').click(function() {
+	  document.getElementById("grid").style.display="none";
+  document.getElementById("grid1").style.display="none";
+  document.getElementById("grid2").style.display="none";
+  
+  
+});
+
+
+// Make sure all the elements with a class of "clickme" are visible and bound
+// with a click event to toggle the "box" state
+$('#a2').click(function() {
+	  document.getElementById("grid").style.display="";
+  document.getElementById("grid1").style.display="";
+  document.getElementById("grid2").style.display="";	
+
+    var gridElement = $("#grid");
+    var dataArea = gridElement.find(".k-grid-content");
+    gridElement.height(620);
+    dataArea.height(630);
+
+});
+
+$('#a3').click(function() {
+	document.getElementById("grid").style.display="";
+    document.getElementById("grid1").style.display="";
+    document.getElementById("grid2").style.display="";	
+
+    var gridElement = $("#grid");
+    var dataArea = gridElement.find(".k-grid-content");
+    gridElement.height(250);
+    dataArea.height(260);
+
+});
+
+</script>
+ 
+</div>
+</body>
+</html>
