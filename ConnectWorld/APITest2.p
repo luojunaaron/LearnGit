@@ -30,3 +30,4 @@ for each tCInvoiceList:
    str1 =  tcCinvoiceType + "  " + tcDescription.
    message str1.
 end.
+//change in master
