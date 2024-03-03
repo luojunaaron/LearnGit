@@ -1,3 +1,1 @@
-Git is good.
-Git is ok.
-Pull Request
+changed in fin-18 branch
